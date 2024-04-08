@@ -145,6 +145,7 @@ void Graph::add_node(size_t node_id, float weight)
     _number_of_nodes++;
 }
 
+<<<<<<< HEAD
 void Graph::add_edge(size_t source_node_id, size_t target_node_id, float weight) {
     
     Node* no_saida = nullptr;
@@ -181,15 +182,74 @@ void Graph::add_edge(size_t source_node_id, size_t target_node_id, float weight)
     no_saida->_first_edge = new_edge;
     no_saida->_number_of_edges++;
 
+=======
+void Graph::add_edge(size_t node_id_1, size_t node_id_2, float weight)
+{
+    Node *node1 = this->_first;
+    Node *node2 = this->_first;
+
+    while (node1 != nullptr)
+    {
+        if (node1->_id == node_id_1)
+        {
+            break;
+        }
+        node1 = node1->_next_node;
+    }
+
+    while (node2 != nullptr)
+    {
+        if (node2->_id == node_id_2)
+        {
+            break;
+        }
+        node2 = node2->_next_node;
+    }
+
+    Edge *newEdge = new Edge;
+    newEdge->_next_edge = node1->_first_edge;
+    node1->_first_edge = newEdge;
+    node1->_number_of_edges = node1->_number_of_edges + 1;
+    node2->_number_of_edges = node2->_number_of_edges + 1;
+    newEdge->_target_id = node2->_id;
+    newEdge->_weight = weight;
+>>>>>>> aa571f67bdd58d6d54e3e26a911667cc53178ef6
 }
 
 
 void Graph::print_graph()
 {
+    Node *node = this->_first;
+    while (node != nullptr)
+    {
+        std::cout << node->_id << " -- ";
+        Edge *edge = node->_first_edge;
+        while (edge != nullptr)
+        {
+            std::cout << edge->_target_id << " [label=\"" << edge->_weight << "\"] ";
+            edge = edge->_next_edge;
+        }
+        std::cout << std::endl;
+        node = node->_next_node;
+    }
 }
 
 void Graph::print_graph(std::ofstream& output_file)
 {
+    Node *node = this->_first;
+    while (node != nullptr)
+    {
+        output_file << node->_id << " -- ";
+        Edge *edge = node->_first_edge;
+        while (edge != nullptr)
+        {
+            output_file << edge->_target_id << " [label=\"" << edge->_weight << "\"] ";
+            edge = edge->_next_edge;
+        }
+        output_file << std::endl;
+        node = node->_next_node;
+    }
+    output_file.close();
 }
 
 int Graph::conected(size_t node_id_1, size_t node_id_2)
