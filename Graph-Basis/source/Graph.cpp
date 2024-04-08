@@ -117,30 +117,72 @@ void Graph::remove_edge(size_t node_position_1, size_t node_position_2)
 }
 
 void Graph::add_node(size_t node_id, float weight)
-{
-    Node *newNode = new Node;
-    newNode->_id = node_id;
-    newNode->_weight = weight;
+{    //para verificar se já nao exite um no com esse id
+    for(Node* noAtual = _first; noAtual != nullptr; noAtual = noAtual->_next_node){
+        if(noAtual->_id == node_id){
+            std::cerr <<"Ja existe um no com esse id"<< std::endl;
+            return;
+        } //um ponteiro criado dentro de uma estrutura de repetiçao é automaticamente deletado apos o fim da mesma
+    }
+    // Se chegou aqui, é pq o no nao existe ainda, entao vamos cria-lo!
+    Node * novoNo = new Node;
+    novoNo->_number_of_edges = 0;
+    novoNo->_id = node_id;
+    novoNo->_weight = weight;
+    novoNo->_first_edge = nullptr;
+    novoNo->_next_node = nullptr;
+    novoNo->_previous_node = _last;
 
-    if (this->_first == nullptr)
-    {
-        this->_first = newNode;
-        this->_last = newNode;
-        newNode->_next_node = nullptr;
+    // agora, vamos ver se esse é o primeiro nó criado ou se ele deve ser posicionado apos o ultimo no criado
+    if(_first == nullptr){
+        _first = novoNo;
+        _last = novoNo;
+    } 
+    else{
+        novoNo->_previous_node = _last;
+        _last = novoNo;
     }
-    else
-    {
-        this->_last->_next_node = newNode;
-        newNode->_next_node = nullptr;
-        newNode->_previous_node = this->_last;
-        this->_last = newNode;
-    }
-    this->_number_of_nodes++;
+    _number_of_nodes++;
 }
 
-void Graph::add_edge(size_t node_id_1, size_t node_id_2, float weight)
-{
+void Graph::add_edge(size_t source_node_id, size_t target_node_id, float weight) {
+    
+    Node* no_saida = nullptr;
+    //Aqui ele vai procurar se o no de onde sai a aresta existe
+    for (Node* current = _first; current != nullptr; current = current->_next_node) {
+        if (current->_id == source_node_id) {
+            no_saida = current; //Se ele encontrar
+            break;
+        }
+    }
+
+    // Se o nó de origem não existe, ele manda uma mensagem
+    if (!no_saida) {
+         std::cerr <<"nao existe um no com esse id"<< std::endl;
+            return;
+    }
+
+    Node* no_entrada = nullptr;
+    //Aqui ele vai procurar se o no de entrada existe
+    for (Node* current = _first; current != nullptr; current = current->_next_node) {
+        if (current->_id == target_node_id) {
+            no_entrada = current;//Se ele encontrar
+            break;
+        }
+    }
+    // Se o nó de origem não existe, ele manda uma mensagem
+    if (!no_entrada) {
+        std::cerr <<"nao existe um no com esse id"<< std::endl;
+            return;
+    }
+
+    // Cria uma nova aresta e declara tudo
+    Edge* new_edge = new Edge{no_saida->_first_edge, weight, target_node_id};
+    no_saida->_first_edge = new_edge;
+    no_saida->_number_of_edges++;
+
 }
+
 
 void Graph::print_graph()
 {
