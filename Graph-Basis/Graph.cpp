@@ -1,4 +1,4 @@
-#include "../include/Graph.hpp"
+#include "Graph.hpp"
 
 Graph::Graph(std::ifstream& instance)
 {
