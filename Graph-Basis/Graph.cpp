@@ -1,16 +1,8 @@
 #include "Graph.hpp"
 
-Graph::Graph(std::ifstream& instance)
-{
-    this->_number_of_nodes = 0;
-    this->_number_of_edges = 0;
-    this->_first = nullptr;
-    this->_last = nullptr;
+Graph::Graph() : _number_of_nodes(0), _number_of_edges(0), _directed(false), _weighted_edges(false), _weighted_nodes(false), _first(nullptr), _last(nullptr) {
 }
 
-Graph::Graph()
-{
-}
 
 Graph::~Graph()
 {
@@ -117,33 +109,36 @@ void Graph::remove_edge(size_t node_position_1, size_t node_position_2)
 }
 
 void Graph::add_node(size_t node_id, float weight)
-{    //para verificar se já nao exite um no com esse id
-    for(Node* noAtual = _first; noAtual != nullptr; noAtual = noAtual->_next_node){
-        if(noAtual->_id == node_id){
+{
+    // para verificar se já não existe um nó com esse id
+    for(Node* currentNode = _first; currentNode != nullptr; currentNode = currentNode->_next_node){
+        if(currentNode->_id == node_id){
             std::cerr <<"Ja existe um no com esse id"<< std::endl;
             return;
-        } //um ponteiro criado dentro de uma estrutura de repetiçao é automaticamente deletado apos o fim da mesma
+        } // um ponteiro criado dentro de uma estrutura de repetição é automaticamente deletado após o fim da mesma
     }
-    // Se chegou aqui, é pq o no nao existe ainda, entao vamos cria-lo!
-    Node * novoNo = new Node;
-    novoNo->_number_of_edges = 0;
-    novoNo->_id = node_id;
-    novoNo->_weight = weight;
-    novoNo->_first_edge = nullptr;
-    novoNo->_next_node = nullptr;
-    novoNo->_previous_node = _last;
+    // Se chegou aqui, é porque o nó não existe ainda, então vamos criá-lo!
+    Node* newNode = new Node;
+    newNode->_number_of_edges = 0;
+    newNode->_id = node_id;
+    newNode->_weight = weight;
+    newNode->_first_edge = nullptr;
+    newNode->_next_node = nullptr;
+    newNode->_previous_node = _last;
 
-    // agora, vamos ver se esse é o primeiro nó criado ou se ele deve ser posicionado apos o ultimo no criado
+    // agora, vamos ver se esse é o primeiro nó criado ou se ele deve ser posicionado após o último nó criado
     if(_first == nullptr){
-        _first = novoNo;
-        _last = novoNo;
+        _first = newNode;
+        _last = newNode;
     } 
     else{
-        novoNo->_previous_node = _last;
-        _last = novoNo;
+        _last->_next_node = newNode;
+        newNode->_previous_node = _last;
+        _last = newNode;
     }
     _number_of_nodes++;
 }
+
 
 
 void Graph::add_edge(size_t source_node_id, size_t target_node_id, float weight) {
@@ -159,7 +154,7 @@ void Graph::add_edge(size_t source_node_id, size_t target_node_id, float weight)
 
     // Se o nó de origem não existe, ele manda uma mensagem
     if (!no_saida) {
-         std::cerr <<"nao existe um no com esse id"<< std::endl;
+         std::cerr <<"nao existe um no com esse id "<< source_node_id << "para saida"<< std::endl;
             return;
     }
 
@@ -173,7 +168,7 @@ void Graph::add_edge(size_t source_node_id, size_t target_node_id, float weight)
     }
     // Se o nó de origem não existe, ele manda uma mensagem
     if (!no_entrada) {
-        std::cerr <<"nao existe um no com esse id"<< std::endl;
+        std::cerr <<"nao existe um no com esse id"<< target_node_id << "para entrada" << std::endl;
             return;
     }
 
@@ -193,13 +188,14 @@ void Graph::print_graph()
         Edge *edge = node->_first_edge;
         while (edge != nullptr)
         {
-            std::cout << edge->_target_id << " [label=\"" << edge->_weight << "\"] ";
+            std::cout << edge->_target_id << " [" << edge->_weight << "] ";
             edge = edge->_next_edge;
         }
         std::cout << std::endl;
         node = node->_next_node;
     }
 }
+
 
 void Graph::print_graph(std::ofstream& output_file)
 {
@@ -210,7 +206,7 @@ void Graph::print_graph(std::ofstream& output_file)
         Edge *edge = node->_first_edge;
         while (edge != nullptr)
         {
-            output_file << edge->_target_id << " [label=\"" << edge->_weight << "\"] ";
+            output_file << edge->_target_id << edge->_weight;
             edge = edge->_next_edge;
         }
         output_file << std::endl;
