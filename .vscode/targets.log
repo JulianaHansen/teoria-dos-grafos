@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed May 08 14:51:21 2024
+# Make data base, printed on Sun May 19 14:33:16 2024
 
 # Variables
 
@@ -19,8 +19,7 @@ LC_ALL = C
 # environment
 USERPROFILE = C:\Users\55249
 # environment
-VBOX_MSI_INSTALL_PATH = C:\P 
-rogram Files\Oracle\VirtualBox\
+VBOX_MSI_INSTALL_PATH = C:\Program Files\Oracle\VirtualBox\
 # environment
 LOCALAPPDATA = C:\Users\55249\AppData\Local
 # environment
@@ -40,7 +39,7 @@ MAKE_COMMAND := C:/ProgramData/chocolatey/lib/make/tools/install/bin/make.exe
 # automatic
 @D = $(patsubst %/,%,$(patsubst %\,%,$(dir $@)))
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_11684_KPAJJIITDAITPDSL
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_3440_DIDGADIEQJWILDHZ
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # default
@@ -70,7 +69,7 @@ ONEDRIVE = C:\Users\55249\OneDrive
 # makefile
 CURDIR := c:/Users/55249/Graph-Basis2/teoria-dos-grafos
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # automatic
 *D = $(patsubst %/,%,$(patsubst %\,%,$(dir $*)))
 # environment
@@ -88,7 +87,7 @@ MAKEFILE_LIST :=
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 11684
+VSCODE_PID = 3440
 # automatic
 ?D = $(patsubst %/,%,$(patsubst %\,%,$(dir $?)))
 # automatic
@@ -157,10 +156,6 @@ USERDOMAIN = DESKTOP-0U9BVHJ
 GNUMAKEFLAGS := 
 # environment
 OS = Windows_NT
-# environment
-__COMPAT_LAYER = DetectorsAppHealth
-# environment
-EFC_4796 = 1
 # makefile
 .DEFAULT_GOAL := 
 # default
@@ -204,11 +199,13 @@ SESSIONNAME = Console
 # environment
 PROCESSOR_REVISION = 7e05
 # environment
+EFC_16832 = 1
+# environment
 CHOCOLATEYTOOLSLOCATION = C:\tools
 # environment
 PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 126 Stepping 5, GenuineIntel
 # variable set hash-table stats:
-# Load=97/1024=9%, Rehash=0, Collisions=9/121=7%
+# Load=96/1024=9%, Rehash=0, Collisions=9/120=8%
 
 # Pattern-specific Variable Values
 
@@ -276,11 +273,12 @@ GNUmakefile:
 # No general ('VPATH' variable) search path.
 
 # strcache buffers: 1 (0) / strings = 13 / storage = 106 B / avg = 8 B
-# current buf: size = 8174 B / used = 106 B / count = 13 / avg = 8 B
+# current buf: size = 8174 B / used = 106 B / count = 13 / avg =  
+8 B
 
 # strcache performance: lookups = 16 / hit rate = 18%
 # hash-table stats:
 # Load=13/8192=0%, Rehash=0, Collisions=0/16=0%
-# Finished Make data base on Wed May 08 14:51:21 2024
+# Finished Make data base on Sun May 19 14:33:16 2024
 
  

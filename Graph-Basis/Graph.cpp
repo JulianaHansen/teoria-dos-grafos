@@ -113,7 +113,6 @@ void Graph::add_node(size_t node_id, float weight)
     // para verificar se já não existe um nó com esse id
     for(Node* currentNode = _first; currentNode != nullptr; currentNode = currentNode->_next_node){
         if(currentNode->_id == node_id){
-            std::cerr <<"Ja existe um no com esse id"<< std::endl;
             return;
         } // um ponteiro criado dentro de uma estrutura de repetição é automaticamente deletado após o fim da mesma
     }
