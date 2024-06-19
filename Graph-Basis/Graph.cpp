@@ -249,3 +249,90 @@ int Graph::conected(size_t node_id_1, size_t node_id_2)
     
     return 0;
 }
+Node* Graph::get_node(size_t id) {
+    Node* current = _first;
+    while (current) {
+        if (current->_id == id) return current;
+        current = current->_next_node;
+    }
+    return nullptr;
+}
+
+void Graph::dist_min_Djkstra(size_t node_id_1, size_t node_id_2) {
+    std::unordered_map<size_t, float> distances;
+    std::unordered_map<size_t, bool> visited;
+    auto compare = [](std::pair<float, size_t> a, std::pair<float, size_t> b) { return a.first > b.first; };
+    std::priority_queue<std::pair<float, size_t>, std::vector<std::pair<float, size_t>>, decltype(compare)> pq(compare);
+
+    Node* startNode = get_node(node_id_1);
+    if (!startNode) {
+        std::cerr << "esse no de partida nao existe" << std::endl;
+        return;
+    }
+
+    distances[node_id_1] = 0.0;
+    pq.push({0.0, node_id_1});
+
+    while (!pq.empty()) {
+        size_t current_id = pq.top().second;
+        pq.pop();
+        if (visited[current_id]) continue;
+        visited[current_id] = true;
+
+        Node* current = get_node(current_id);
+        for (Edge* edge = current->_first_edge; edge; edge = edge->_next_edge) {
+            size_t neighbor_id = edge->_target_id;
+            float new_distance = distances[current_id] + edge->_weight;
+
+            if (distances.find(neighbor_id) == distances.end() || new_distance < distances[neighbor_id]) {
+                distances[neighbor_id] = new_distance;
+                pq.push({new_distance, neighbor_id});
+            }
+        }
+    }
+
+    if (distances.find(node_id_2) != distances.end()) {
+        std::cout << "Distancia do no " << node_id_1 << " ate o no " << node_id_2 << " é " << distances[node_id_2] << std::endl;
+    } else {
+        std::cout << "nao ha caminho atre esses nos " << std::endl;
+    }
+}
+void Graph::floyd_warshall() {
+    const float INF = std::numeric_limits<float>::infinity();
+    std::vector<std::vector<float>> dist(_number_of_nodes, std::vector<float>(_number_of_nodes, INF));
+
+    std::cout << "entrei" << std::endl;
+    // Inicializa a matriz de distâncias com os pesos das arestas
+    Node* current = _first;
+    while (current) {
+        dist[current->_id][current->_id] = 0;
+        for (Edge* edge = current->_first_edge; edge; edge = edge->_next_edge) {
+            dist[current->_id][edge->_target_id] = edge->_weight;
+        }
+        current = current->_next_node;
+    }
+
+    // Algoritmo de Floyd-Warshall para encontrar as menores distâncias entre todos os pares de nós
+    for (size_t k = 0; k < _number_of_nodes; ++k) {
+        for (size_t i = 0; i < _number_of_nodes; ++i) {
+            for (size_t j = 0; j < _number_of_nodes; ++j) {
+                if (dist[i][k] < INF && dist[k][j] < INF) {
+                    dist[i][j] = std::min(dist[i][j], dist[i][k] + dist[k][j]);
+                }
+            }
+        }
+    }
+    
+    // Impressão das distâncias mínimas
+    std::cout << "Distancia minima entre os nos :" << std::endl;
+    for (size_t i = 0; i < _number_of_nodes; ++i) {
+        for (size_t j = 0; j < _number_of_nodes; ++j) {
+            if (dist[i][j] == INF) {
+                std::cout << "INF ";
+            } else {
+                std::cout << dist[i][j] << " ";
+            }
+        }
+        std::cout << std::endl;
+    }
+}

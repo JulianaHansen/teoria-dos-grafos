@@ -130,9 +130,8 @@ int main(int argc, char* argv[])
             std::cerr << "Qual o vertice inicial?" << std::endl;
             std::cin >> vertice1;
             std::cerr << "Qual o vertice final?" << std::endl;
-            std::cin >> vertice2;
-
-            //inserir a funcao aqui 
+            std::cin >> vertice2; 
+            graph->dist_min_Djkstra(vertice1, vertice2);//  chama a funcao 
         }
         else if(valor == 2) //Caminho min entre dois vertices (alg Floyd)
         {
@@ -143,7 +142,7 @@ int main(int argc, char* argv[])
             std::cerr << "Qual o vertice final?" << std::endl;
             std::cin >> vertice2;
 
-            //inserir a funcao aqui 
+            // graph->floyd_warshall();//esta dando algum erro dentro da funcao
         }
         else if(valor == 3) //Arvore Geradora Minima (alg Prim) 
         {

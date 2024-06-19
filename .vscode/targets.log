@@ -1,6 +1,4 @@
 make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --question
-make: *** No rule to make target 'all'.  Stop.
-
 # GNU Make 4.4.1
 # Built for Windows32
 # Copyright (C) 1988-2023 Free Software Foundation, Inc.
@@ -8,7 +6,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sun May 19 14:33:16 2024
+# Make data base, printed on Wed Jun 19 18:22:00 2024
 
 # Variables
 
@@ -39,7 +37,7 @@ MAKE_COMMAND := C:/ProgramData/chocolatey/lib/make/tools/install/bin/make.exe
 # automatic
 @D = $(patsubst %/,%,$(patsubst %\,%,$(dir $@)))
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_3440_DIDGADIEQJWILDHZ
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_3972_MJVFJDXSQYSWCAQO
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # default
@@ -51,7 +49,7 @@ VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # automatic
 %F = $(notdir $%)
 # environment
-VSCODE_CODE_CACHE_PATH = C:\Users\55249\AppData\Roaming\Code\CachedData\b58957e67ee1e712cebf466b995adf4c5307b2bd
+VSCODE_CODE_CACHE_PATH = C:\Users\55249\AppData\Roaming\Code\CachedData\5437499feb04f7a586f677b155b039bc2b3669eb
 # environment
 LANG = C
 # default
@@ -69,7 +67,7 @@ ONEDRIVE = C:\Users\55249\OneDrive
 # makefile
 CURDIR := c:/Users/55249/Graph-Basis2/teoria-dos-grafos
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
 # automatic
 *D = $(patsubst %/,%,$(patsubst %\,%,$(dir $*)))
 # environment
@@ -87,7 +85,7 @@ MAKEFILE_LIST :=
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 3440
+VSCODE_PID = 3972
 # automatic
 ?D = $(patsubst %/,%,$(patsubst %\,%,$(dir $?)))
 # automatic
@@ -95,7 +93,7 @@ VSCODE_PID = 3440
 # automatic
 <D = $(patsubst %/,%,$(patsubst %\,%,$(dir $<)))
 # environment
-VSCODE_NLS_CONFIG = {"locale":"pt-br","osLocale":"pt-br","availableLanguages":{"*":"pt-br"},"_languagePackId":"94c6136efa10e62debd8fd1ac2620f9a.pt-br","_translationsConfigFile":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\94c6136efa10e62debd8fd1ac2620f9a.pt-br\\tcf.json","_cacheRoot":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\94c6136efa10e62debd8fd1ac2620f9a.pt-br","_resolvedLanguagePackCoreLocation":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\94c6136efa10e62debd8fd1ac2620f9a.pt-br\\b58957e67ee1e712cebf466b995adf4c5307b2bd","_corruptedFile":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\94c6136efa10e62debd8fd1ac2620f9a.pt-br\\corrupted.info","_languagePackSupport":true}
+VSCODE_NLS_CONFIG = {"locale":"pt-br","osLocale":"pt-br","availableLanguages":{"*":"pt-br"},"_languagePackId":"a489350eeb5704bc74db0f60ca68ece2.pt-br","_translationsConfigFile":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\a489350eeb5704bc74db0f60ca68ece2.pt-br\\tcf.json","_cacheRoot":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\a489350eeb5704bc74db0f60ca68ece2.pt-br","_resolvedLanguagePackCoreLocation":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\a489350eeb5704bc74db0f60ca68ece2.pt-br\\5437499feb04f7a586f677b155b039bc2b3669eb","_corruptedFile":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\a489350eeb5704bc74db0f60ca68ece2.pt-br\\corrupted.info","_languagePackSupport":true}
 # environment
 ONEDRIVECONSUMER = C:\Users\55249\OneDrive
 # default
@@ -161,6 +159,8 @@ OS = Windows_NT
 # default
 MAKE_VERSION := 4.4.1
 # environment
+EFC_7768 = 1
+# environment
 PROGRAMFILES(X86) = C:\Program Files (x86)
 # environment
 USERDOMAIN_ROAMINGPROFILE = DESKTOP-0U9BVHJ
@@ -183,7 +183,7 @@ ELECTRON_RUN_AS_NODE = 1
 # environment
 TEMP = C:\Users\55249\AppData\Local\Temp
 # environment
-VSCODE_IPC_HOOK = \\.\pipe\77014ff1-1.89.0-main-sock
+VSCODE_IPC_HOOK = \\.\pipe\77014ff1-1.90.2-main-sock
 # default
 .RECIPEPREFIX := 
 # automatic
@@ -198,8 +198,6 @@ SESSIONNAME = Console
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs notintermediate shell-export archives jobserver output-sync load dospaths
 # environment
 PROCESSOR_REVISION = 7e05
-# environment
-EFC_16832 = 1
 # environment
 CHOCOLATEYTOOLSLOCATION = C:\tools
 # environment
@@ -273,12 +271,13 @@ GNUmakefile:
 # No general ('VPATH' variable) search path.
 
 # strcache buffers: 1 (0) / strings = 13 / storage = 106 B / avg = 8 B
-# current buf: size = 8174 B / used = 106 B / count = 13 / avg =  
-8 B
+# current buf: size = 8174 B / used = 106 B / count = 13 / avg = 8 B
 
 # strcache performance: lookups = 16 / hit rate = 18%
 # hash-table stats:
 # Load=13/8192=0%, Rehash=0, Collisions=0/16=0%
-# Finished Make data base on Sun May 19 14:33:16 2024
+# Finished Make data base on Wed Jun 19 18:22:00 2024
 
  
+make: *** No rule to make target 'all'.  Stop.
+

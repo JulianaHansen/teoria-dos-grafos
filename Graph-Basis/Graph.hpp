@@ -19,9 +19,11 @@ public:
     void add_edge(size_t node_id_1, size_t node_id_2, float weight = 0);
     void print_graph(std::ofstream& output_file);
     void print_graph();
-
+    void dist_min_Djkstra(size_t node_id_1, size_t node_id_2);
+    Node* get_node(size_t id);
     int conected(size_t node_id_1, size_t node_id_2);
-
+    void floyd_warshall();
+    
 private:
     size_t _number_of_nodes;
     size_t _number_of_edges;
