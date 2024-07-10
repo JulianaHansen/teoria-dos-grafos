@@ -23,6 +23,7 @@ public:
     Node* get_node(size_t id);
     int conected(size_t node_id_1, size_t node_id_2);
     void floyd_warshall();
+    std::vector<size_t> get_shortest_path(size_t node_id_1, size_t node_id_2);
     
 private:
     size_t _number_of_nodes;
@@ -32,6 +33,8 @@ private:
     bool   _weighted_nodes;
     Node  *_first;
     Node  *_last;
+    std::vector<std::vector<float>> dist;
+    std::vector<std::vector<int>> next;
 };
 
 #endif  //GRAPH_HPP

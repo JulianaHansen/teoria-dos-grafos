@@ -1,4 +1,6 @@
 #include "Graph.hpp"
+#include <limits>
+const float INF = std::numeric_limits<float>::infinity();
 
 Graph::Graph() : _number_of_nodes(0), _number_of_edges(0), _directed(false), _weighted_edges(false), _weighted_nodes(false), _first(nullptr), _last(nullptr) {
 }
@@ -298,33 +300,50 @@ void Graph::dist_min_Djkstra(size_t node_id_1, size_t node_id_2) {
     }
 }
 void Graph::floyd_warshall() {
-    const float INF = std::numeric_limits<float>::infinity();
-    std::vector<std::vector<float>> dist(_number_of_nodes, std::vector<float>(_number_of_nodes, INF));
+    std::unordered_map<size_t, size_t> node_to_index;
+    std::unordered_map<size_t, size_t> index_to_node;
+    size_t index = 0;
 
-    std::cout << "entrei" << std::endl;
-    // Inicializa a matriz de distâncias com os pesos das arestas
-    Node* current = _first;
+    //  garantindo que os ids dos nós sejam contíguos e comecem em 0
+    for (Node* current = _first; current; current = current->_next_node) {
+        node_to_index[current->_id] = index;
+        index_to_node[index] = current->_id;
+        index++;
+    }
+
+    // Inicializar as matrizes dist e next
+    dist.assign(_number_of_nodes, std::vector<float>(_number_of_nodes, INF));// armazena a menor distância conhecida do nó i ao nó j
+    next.assign(_number_of_nodes, std::vector<int>(_number_of_nodes, -1));// rastreia os próximos nós no caminho mínimo entre dois nós
+
+    // Preenche as matrizes dist e next com base nos índices mapeados
+    Node *current = _first;
     while (current) {
-        dist[current->_id][current->_id] = 0;
-        for (Edge* edge = current->_first_edge; edge; edge = edge->_next_edge) {
-            dist[current->_id][edge->_target_id] = edge->_weight;
+        size_t u = node_to_index[current->_id];
+        dist[u][u] = 0;
+        for (Edge *edge = current->_first_edge; edge; edge = edge->_next_edge) {
+            size_t v = node_to_index[edge->_target_id];
+            dist[u][v] = edge->_weight;
+            next[u][v] = v;
         }
         current = current->_next_node;
     }
 
-    // Algoritmo de Floyd-Warshall para encontrar as menores distâncias entre todos os pares de nós
+    // algoritmo Floyd-Warshall
     for (size_t k = 0; k < _number_of_nodes; ++k) {
         for (size_t i = 0; i < _number_of_nodes; ++i) {
             for (size_t j = 0; j < _number_of_nodes; ++j) {
                 if (dist[i][k] < INF && dist[k][j] < INF) {
-                    dist[i][j] = std::min(dist[i][j], dist[i][k] + dist[k][j]);
+                    if (dist[i][j] > dist[i][k] + dist[k][j]) {
+                        dist[i][j] = dist[i][k] + dist[k][j];
+                        next[i][j] = next[i][k];
+                    }
                 }
             }
         }
     }
-    
-    // Impressão das distâncias mínimas
-    std::cout << "Distancia minima entre os nos :" << std::endl;
+
+
+    std::cout << "menor distancia entre pares de nos:" << std::endl;
     for (size_t i = 0; i < _number_of_nodes; ++i) {
         for (size_t j = 0; j < _number_of_nodes; ++j) {
             if (dist[i][j] == INF) {
@@ -335,4 +354,31 @@ void Graph::floyd_warshall() {
         }
         std::cout << std::endl;
     }
+}
+
+//Utiliza a matriz de predecessores gerada pela floyd para reconstruir o caminho min entre dois nós
+std::vector<size_t> Graph::get_shortest_path(size_t node_id_1, size_t node_id_2) {
+    std::unordered_map<size_t, size_t> node_to_index;
+    std::unordered_map<size_t, size_t> index_to_node;
+    size_t index = 0;
+
+    for (Node* current = _first; current; current = current->_next_node) {
+        node_to_index[current->_id] = index;
+        index_to_node[index] = current->_id;
+        index++;
+    }
+
+    size_t u = node_to_index[node_id_1];
+    size_t v = node_to_index[node_id_2];
+    std::vector<size_t> path;
+
+    if (next[u][v] == -1) return path;
+
+    while (u != v) {
+        path.push_back(index_to_node[u]);
+        u = next[u][v];
+    }
+    path.push_back(index_to_node[v]);
+
+    return path;
 }

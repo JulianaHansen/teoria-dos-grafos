@@ -136,13 +136,23 @@ int main(int argc, char* argv[])
         else if(valor == 2) //Caminho min entre dois vertices (alg Floyd)
         {
             int vertice1, vertice2; // a funcao usa dois parametros (vertice inicial e vertice final)
-
             std::cerr << "Qual o vertice inicial?" << std::endl;
             std::cin >> vertice1;
             std::cerr << "Qual o vertice final?" << std::endl;
             std::cin >> vertice2;
 
-            // graph->floyd_warshall();//esta dando algum erro dentro da funcao
+            graph->floyd_warshall();//esta dando algum erro dentro da funcao
+
+
+            std::vector<size_t> path = graph->get_shortest_path(vertice1, vertice2);
+            std::cout << "Caminho minimo de " << vertice1 << " para " << vertice2 << ":" << std::endl;
+            for (size_t node : path) {
+                std::cout << node << " ";
+            }
+            std::cout << std::endl;
+
+            delete graph;
+           
         }
         else if(valor == 3) //Arvore Geradora Minima (alg Prim) 
         {
