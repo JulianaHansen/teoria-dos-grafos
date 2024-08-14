@@ -28,6 +28,8 @@ public:
     int get_diameter();
     std::vector<size_t> get_center();
     std::vector<size_t> get_periphery();
+    std::vector<size_t> trasitive_closure(size_t node_id);
+    std::vector<size_t> intrasitive_closure(size_t node_id);
     
 private:
     size_t _number_of_nodes;

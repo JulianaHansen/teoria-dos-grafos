@@ -199,12 +199,17 @@ int main(int argc, char* argv[])
             int vertice;
             std::cerr << "Qual o vertice desejado?" << std::endl;
             std::cin >> vertice;
+
+            graph->trasitive_closure(vertice);
+
         }
         else if(valor == 9) //Fecho transitivo indireto de um vertice
         {
             int vertice;
             std::cerr << "Qual o vertice desejado?" << std::endl;
             std::cin >> vertice;
+
+            graph->intrasitive_closure(vertice);
         }
     }
     

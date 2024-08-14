@@ -338,7 +338,6 @@ std::vector<size_t> Graph::get_center() {
 }
 
 std::vector<size_t> Graph::get_periphery() {
-    // Ensure that shortest paths are computed
     floyd_warshall();
     
     std::vector<size_t> periphery;
@@ -349,7 +348,6 @@ std::vector<size_t> Graph::get_periphery() {
         for (size_t j = 0; j < _number_of_nodes; ++j) {
             if (i != j) {
                 if (dist[i][j] == std::numeric_limits<float>::infinity()) {
-                    // If node j is unreachable from node i, eccentricity is infinite
                     eccentricity = std::numeric_limits<int>::max();
                     break;
                 }
@@ -367,6 +365,20 @@ std::vector<size_t> Graph::get_periphery() {
     }
     
     return periphery;
+}
+
+std::vector<size_t> Graph::trasitive_closure(size_t node_id){
+
+    std::vector<size_t> closure;
+    return closure;
+
+}
+
+std::vector<size_t> Graph::intrasitive_closure(size_t node_id){
+    
+    std::vector<size_t> closure;
+    return closure;
+
 }
 
 void Graph::dist_min_Djkstra(size_t node_id_1, size_t node_id_2) {
