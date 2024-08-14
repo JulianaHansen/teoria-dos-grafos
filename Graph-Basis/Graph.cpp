@@ -289,7 +289,22 @@ int Graph::get_radius(){
 }
 
 int Graph::get_diameter(){
-    return 0;
+    floyd_warshall();
+    
+    int diameter = 0;
+    
+    for (size_t i = 0; i < _number_of_nodes; ++i) {
+        for (size_t j = 0; j < _number_of_nodes; ++j) {
+            if (i != j) {
+                if (dist[i][j] == std::numeric_limits<float>::infinity()) {
+                    return -1;
+                }
+                diameter = std::max(diameter, static_cast<int>(dist[i][j]));
+            }
+        }
+    }
+    
+    return diameter;
 }
 
 int Graph::get_center(){
