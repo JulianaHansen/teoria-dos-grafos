@@ -261,7 +261,31 @@ Node* Graph::get_node(size_t id) {
 }
 
 int Graph::get_radius(){
-    return 0;
+        
+    floyd_warshall();
+    
+    int radius = std::numeric_limits<int>::max();
+    
+    for (size_t i = 0; i < _number_of_nodes; ++i) {
+       
+        int eccentricity = 0;
+        for (size_t j = 0; j < _number_of_nodes; ++j) {
+            if (i != j) {
+                
+                if (dist[i][j] == std::numeric_limits<float>::infinity()) {
+                    eccentricity = std::numeric_limits<int>::max();
+                    break;
+                }
+                eccentricity = std::max(eccentricity, static_cast<int>(dist[i][j]));
+            }
+        }
+        
+    
+        radius = std::min(radius, eccentricity);
+    }
+    
+ 
+    return (radius == std::numeric_limits<int>::max()) ? -1 : radius;
 }
 
 int Graph::get_diameter(){
