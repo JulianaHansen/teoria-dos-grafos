@@ -307,12 +307,66 @@ int Graph::get_diameter(){
     return diameter;
 }
 
-int Graph::get_center(){
-    return 0;
+std::vector<size_t> Graph::get_center() {
+    floyd_warshall();
+    
+    std::vector<size_t> centers;
+    int min_eccentricity = std::numeric_limits<int>::max();
+    
+    for (size_t i = 0; i < _number_of_nodes; ++i) {
+        int eccentricity = 0;
+        for (size_t j = 0; j < _number_of_nodes; ++j) {
+            if (i != j) {
+                if (dist[i][j] == std::numeric_limits<float>::infinity()) {
+                    eccentricity = std::numeric_limits<int>::max();
+                    break;
+                }
+                eccentricity = std::max(eccentricity, static_cast<int>(dist[i][j]));
+            }
+        }
+        
+        if (eccentricity < min_eccentricity) {
+            min_eccentricity = eccentricity;
+            centers.clear();
+            centers.push_back(i);
+        } else if (eccentricity == min_eccentricity) {
+            centers.push_back(i);
+        }
+    }
+    
+    return centers;
 }
 
-int Graph::get_periphery(){
-    return 0;
+std::vector<size_t> Graph::get_periphery() {
+    // Ensure that shortest paths are computed
+    floyd_warshall();
+    
+    std::vector<size_t> periphery;
+    int max_eccentricity = 0;
+    
+    for (size_t i = 0; i < _number_of_nodes; ++i) {
+        int eccentricity = 0;
+        for (size_t j = 0; j < _number_of_nodes; ++j) {
+            if (i != j) {
+                if (dist[i][j] == std::numeric_limits<float>::infinity()) {
+                    // If node j is unreachable from node i, eccentricity is infinite
+                    eccentricity = std::numeric_limits<int>::max();
+                    break;
+                }
+                eccentricity = std::max(eccentricity, static_cast<int>(dist[i][j]));
+            }
+        }
+        
+        if (eccentricity > max_eccentricity) {
+            max_eccentricity = eccentricity;
+            periphery.clear();
+            periphery.push_back(i);
+        } else if (eccentricity == max_eccentricity) {
+            periphery.push_back(i);
+        }
+    }
+    
+    return periphery;
 }
 
 void Graph::dist_min_Djkstra(size_t node_id_1, size_t node_id_2) {
