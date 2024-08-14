@@ -117,7 +117,7 @@ int main(int argc, char* argv[])
 
         if(direcionado == 1) // Essas duas funcio. so aparecem p/ grafos direcionados
         {
-            std::cerr << "(8) Fecho transitivo direto de um vertice "<< std::endl << "(9) Fecho transitivo direto de um vertice " << std::endl;
+            std::cerr << "(8) Fecho transitivo direto de um vertice "<< std::endl << "(9) Fecho transitivo indireto de um vertice " << std::endl;
         }
 
         std::cerr << "Clique no 0 para finalizar" << std::endl;
@@ -190,17 +190,21 @@ int main(int argc, char* argv[])
 
             std::cerr << std::endl;
         }
-        else if(valor == 7) //Caminho min entre dois vertices (alg Djkstra)
+        else if(valor == 7) //Conjunto de vertices de articulação
         {
 
         }
-        else if(valor == 8) //Caminho min entre dois vertices (alg Djkstra)
+        else if(valor == 8) //Fecho transitivo direto de um vertice
         {
-
+            int vertice;
+            std::cerr << "Qual o vertice desejado?" << std::endl;
+            std::cin >> vertice;
         }
-        else if(valor == 9) //Caminho min entre dois vertices (alg Djkstra)
+        else if(valor == 9) //Fecho transitivo indireto de um vertice
         {
-
+            int vertice;
+            std::cerr << "Qual o vertice desejado?" << std::endl;
+            std::cin >> vertice;
         }
     }
     
