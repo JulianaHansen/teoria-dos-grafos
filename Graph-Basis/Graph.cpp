@@ -260,6 +260,22 @@ Node* Graph::get_node(size_t id) {
     return nullptr;
 }
 
+int Graph::get_radius(){
+    return 0;
+}
+
+int Graph::get_diameter(){
+    return 0;
+}
+
+int Graph::get_center(){
+    return 0;
+}
+
+int Graph::get_periphery(){
+    return 0;
+}
+
 void Graph::dist_min_Djkstra(size_t node_id_1, size_t node_id_2) {
     std::unordered_map<size_t, float> distances;
     std::unordered_map<size_t, bool> visited;

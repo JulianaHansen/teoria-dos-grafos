@@ -24,6 +24,10 @@ public:
     int conected(size_t node_id_1, size_t node_id_2);
     void floyd_warshall();
     std::vector<size_t> get_shortest_path(size_t node_id_1, size_t node_id_2);
+    int get_radius();
+    int get_diameter();
+    int get_center();
+    int get_periphery();
     
 private:
     size_t _number_of_nodes;

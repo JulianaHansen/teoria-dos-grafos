@@ -168,7 +168,13 @@ int main(int argc, char* argv[])
         }
         else if(valor == 6) //O raio, o diametro, o centro e a periferia do grafo
         {
+            int radius = graph->get_radius();
+            int diameter = graph->get_diameter();
+            int center = graph->get_center();
+            int periphery = graph->get_periphery();
 
+             std::cerr << "O raio do grafo é  " << radius << std::endl << "O diametro do grafo é " << diameter << std::endl;
+             std::cerr << "O centro do grafo é " << center << std::endl << "A periferia do grafo é " << periphery << std::endl;
         }
         else if(valor == 7) //Caminho min entre dois vertices (alg Djkstra)
         {
