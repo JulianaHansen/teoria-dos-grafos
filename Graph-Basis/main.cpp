@@ -200,7 +200,14 @@ int main(int argc, char* argv[])
             std::cerr << "Qual o vertice desejado?" << std::endl;
             std::cin >> vertice;
 
-            graph->trasitive_closure(vertice);
+            std::vector<size_t> closure = graph->trasitive_closure(vertice);
+
+            std::cerr << "O fecho é composta pelos nos: ";
+            for (const size_t& value : closure) {
+                std::cout << value << " ";
+            }
+
+            std::cerr << std::endl;
 
         }
         else if(valor == 9) //Fecho transitivo indireto de um vertice
@@ -209,7 +216,14 @@ int main(int argc, char* argv[])
             std::cerr << "Qual o vertice desejado?" << std::endl;
             std::cin >> vertice;
 
-            graph->intrasitive_closure(vertice);
+            std::vector<size_t> closure = graph->intrasitive_closure(vertice);
+
+            std::cerr << "O fecho é composta pelos nos: ";
+            for (const size_t& value : closure) {
+                std::cout << value << " ";
+            }
+
+            std::cerr << std::endl;
         }
     }
     

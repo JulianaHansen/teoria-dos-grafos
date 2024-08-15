@@ -1,5 +1,8 @@
 #include "Graph.hpp"
 #include <limits>
+#include <unordered_set>
+#include <stack>
+
 const float INF = std::numeric_limits<float>::infinity();
 
 Graph::Graph() : _number_of_nodes(0), _number_of_edges(0), _directed(false), _weighted_edges(false), _weighted_nodes(false), _first(nullptr), _last(nullptr) {
@@ -369,9 +372,35 @@ std::vector<size_t> Graph::get_periphery() {
 
 std::vector<size_t> Graph::trasitive_closure(size_t node_id){
 
-    std::vector<size_t> closure;
-    return closure;
+    Node* firstNode = get_node(node_id);
 
+    std::vector<size_t> closure;
+    std::stack<Node*> stack;     
+
+    stack.push(firstNode);
+
+    while (!stack.empty()) {
+        Node* current_node = stack.top();
+        stack.pop();
+
+        if (std::find(closure.begin(), closure.end(), current_node->_id) != closure.end()) {
+            continue;
+        }
+
+        closure.push_back(current_node->_id);
+
+        Edge* edge = current_node->_first_edge;
+        while (edge != nullptr) {
+
+            Node* target_node = get_node(edge->_target_id); 
+            if (std::find(closure.begin(), closure.end(), target_node->_id) == closure.end()) {
+                stack.push(target_node); 
+            }
+            edge = edge->_next_edge;
+        }
+    }
+
+    return closure;  
 }
 
 std::vector<size_t> Graph::intrasitive_closure(size_t node_id){
