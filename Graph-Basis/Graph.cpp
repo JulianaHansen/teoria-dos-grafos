@@ -370,8 +370,26 @@ std::vector<size_t> Graph::get_periphery() {
     return periphery;
 }
 
-std::vector<size_t> Graph::trasitive_closure(size_t node_id){
+std::vector<size_t> Graph::direct_closure(size_t node_id){
 
+    Node* start_node = get_node(node_id); 
+    if (!start_node) return {};  
+
+    std::vector<size_t> closure;  
+
+    // Percorre todas as arestas do nó inicial
+    Edge* edge = start_node->_first_edge;
+    while (edge != nullptr) {
+      
+        closure.push_back(edge->_target_id);
+        edge = edge->_next_edge;
+    }
+
+    return closure;
+}
+
+std::vector<size_t> Graph::indirect_closure(size_t node_id){
+    
     Node* firstNode = get_node(node_id);
 
     std::vector<size_t> closure;
@@ -401,12 +419,6 @@ std::vector<size_t> Graph::trasitive_closure(size_t node_id){
     }
 
     return closure;  
-}
-
-std::vector<size_t> Graph::intrasitive_closure(size_t node_id){
-    
-    std::vector<size_t> closure;
-    return closure;
 
 }
 

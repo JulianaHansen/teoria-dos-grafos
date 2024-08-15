@@ -200,7 +200,7 @@ int main(int argc, char* argv[])
             std::cerr << "Qual o vertice desejado?" << std::endl;
             std::cin >> vertice;
 
-            std::vector<size_t> closure = graph->trasitive_closure(vertice);
+            std::vector<size_t> closure = graph->direct_closure(vertice);
 
             std::cerr << "O fecho é composta pelos nos: ";
             for (const size_t& value : closure) {
@@ -216,7 +216,7 @@ int main(int argc, char* argv[])
             std::cerr << "Qual o vertice desejado?" << std::endl;
             std::cin >> vertice;
 
-            std::vector<size_t> closure = graph->intrasitive_closure(vertice);
+            std::vector<size_t> closure = graph->indirect_closure(vertice);
 
             std::cerr << "O fecho é composta pelos nos: ";
             for (const size_t& value : closure) {
