@@ -423,8 +423,8 @@ std::vector<size_t> Graph::indirect_closure(size_t node_id){
 }
 
 void Graph::dist_min_Djkstra(size_t node_id_1, size_t node_id_2) {
-    std::unordered_map<size_t, float> distances;
     std::unordered_map<size_t, bool> visited;
+    std::unordered_map<size_t, size_t> predecessors; // Mapeamento de predecessores
     auto compare = [](std::pair<float, size_t> a, std::pair<float, size_t> b) { return a.first > b.first; };
     std::priority_queue<std::pair<float, size_t>, std::vector<std::pair<float, size_t>>, decltype(compare)> pq(compare);
 
@@ -434,7 +434,6 @@ void Graph::dist_min_Djkstra(size_t node_id_1, size_t node_id_2) {
         return;
     }
 
-    distances[node_id_1] = 0.0;
     pq.push({0.0, node_id_1});
 
     while (!pq.empty()) {
@@ -444,23 +443,37 @@ void Graph::dist_min_Djkstra(size_t node_id_1, size_t node_id_2) {
         visited[current_id] = true;
 
         Node* current = get_node(current_id);
+        if (current_id == node_id_2) break; // Para a busca ao alcançar o nó de destino
+
         for (Edge* edge = current->_first_edge; edge; edge = edge->_next_edge) {
             size_t neighbor_id = edge->_target_id;
-            float new_distance = distances[current_id] + edge->_weight;
-
-            if (distances.find(neighbor_id) == distances.end() || new_distance < distances[neighbor_id]) {
-                distances[neighbor_id] = new_distance;
-                pq.push({new_distance, neighbor_id});
+            if (!visited[neighbor_id]) {
+                pq.push({edge->_weight, neighbor_id});
+                predecessors[neighbor_id] = current_id; // Armazena o predecessor
             }
         }
     }
 
-    if (distances.find(node_id_2) != distances.end()) {
-        std::cout << "Distancia do no " << node_id_1 << " ate o no " << node_id_2 << " é " << distances[node_id_2] << std::endl;
+    if (visited[node_id_2]) {
+        // Reconstruindo o caminho
+        std::vector<size_t> path;
+        for (size_t at = node_id_2; at != node_id_1; at = predecessors[at]) {
+            path.push_back(at);
+        }
+        path.push_back(node_id_1);
+
+        std::reverse(path.begin(), path.end()); // Reverte o caminho para a ordem correta
+
+        std::cout << "Caminho: ";
+        for (size_t node : path) {
+            std::cout << node << " ";
+        }
+        std::cout << std::endl;
     } else {
-        std::cout << "nao ha caminho atre esses nos " << std::endl;
+        std::cout << "nao ha caminho entre esses nos" << std::endl;
     }
 }
+
 void Graph::floyd_warshall() {
     std::unordered_map<size_t, size_t> node_to_index;
     std::unordered_map<size_t, size_t> index_to_node;
@@ -505,20 +518,14 @@ void Graph::floyd_warshall() {
     }
 
 
-    std::cout << "menor distancia entre pares de nos:" << std::endl;
     for (size_t i = 0; i < _number_of_nodes; ++i) {
-        for (size_t j = 0; j < _number_of_nodes; ++j) {
-            if (dist[i][j] == INF) {
-                std::cout << "INF ";
-            } else {
-                std::cout << dist[i][j] << " ";
-            }
+        for (size_t j = 0; j < _number_of_nodes; ++j) {     
         }
-        std::cout << std::endl;
+       
     }
 }
 
-//Utiliza a matriz de predecessores gerada pela floyd para reconstruir o caminho min entre dois nós
+//matriz de predecessores gerada pela floyd vai achar o caminho min entre dois nós
 std::vector<size_t> Graph::get_shortest_path(size_t node_id_1, size_t node_id_2) {
     std::unordered_map<size_t, size_t> node_to_index;
     std::unordered_map<size_t, size_t> index_to_node;
