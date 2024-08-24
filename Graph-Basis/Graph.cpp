@@ -551,3 +551,84 @@ std::vector<size_t> Graph::get_shortest_path(size_t node_id_1, size_t node_id_2)
 
     return path;
 }
+
+std::string Graph::prim(std::vector<size_t> subgraph) {
+    
+    Graph* graphLocal =  new Graph();
+    int orderAux = 0;
+
+    graphLocal->_weighted_edges = true;
+
+    for(int i=0; i<subgraph.size(); i++){
+        Node *nodeAux = get_node(subgraph[i]);
+        Edge *edgeAux = nodeAux->_first_edge;
+        orderAux+=1;
+        while(edgeAux != nullptr){
+            graphLocal->add_edge(nodeAux->_id, edgeAux->_target_id, edgeAux->_weight);
+            edgeAux = edgeAux->_next_edge;
+            orderAux += 1;
+        }
+    }
+
+    graphLocal->_number_of_nodes = orderAux;
+
+    std::vector<bool> inAGM(graphLocal->_number_of_nodes, false);
+    std::vector<int> key(graphLocal->_number_of_nodes, INT32_MAX);
+    std::vector<int> dad(graphLocal->_number_of_nodes, -1);
+
+    int source = graphLocal->_first->_id;
+    key[source-1] = 0;
+
+    std::priority_queue<std::pair<int,int>, std::vector<std::pair<int,int>>, std::greater<std::pair<int,int>>> priorityqueue;
+    priorityqueue.push(std::make_pair(0,source));
+
+    while (!priorityqueue.empty()){
+        int u = priorityqueue.top().second;
+        priorityqueue.pop();
+
+        if(inAGM[u-1]){
+            continue;
+        }
+
+        inAGM[u-1] = true;
+
+        Edge *edge = graphLocal->get_node(u)->_first_edge;
+
+        while(edge != nullptr){
+            int v = edge->_target_id;
+            int weight = edge->_weight;
+
+            if(!inAGM[v-1] && weight < key[v-1]){
+                key[v-1] = weight;
+                dad[v-1] = u;
+
+                priorityqueue.push(std::make_pair(weight,v));
+            }
+
+            edge = edge->_next_edge;
+
+        }
+
+    }
+
+    std::string result = "Arestas da Árvore Geradora Mínima obtida pelo método de PRIM: \n";
+
+    int totalWeight = 0;
+
+    for(int i=0; i< graphLocal->_number_of_nodes; i++){
+            
+        if(dad[i] != -1){
+            int u = dad[i];
+            int v = i+1;
+            int weight = key[i];
+
+            result += std::to_string(u) + " " + std::to_string(v) + " " + std::to_string(weight) + "\n";
+
+            totalWeight+= weight;
+        }
+    }
+
+    result+= "Peso total da Árvore Geradora Mínima: " + std::to_string(totalWeight) + "\n";
+
+    return result;
+}

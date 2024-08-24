@@ -3,6 +3,7 @@
 
 #include "Node.hpp"
 #include "defines.hpp"
+#include <string>
 
 class Graph
 {
@@ -30,6 +31,7 @@ public:
     std::vector<size_t> get_periphery();
     std::vector<size_t> direct_closure(size_t node_id);
     std::vector<size_t> indirect_closure(size_t node_id);
+    std::string prim(std::vector<size_t> subgraph); // TESTAR
     
 private:
     size_t _number_of_nodes;

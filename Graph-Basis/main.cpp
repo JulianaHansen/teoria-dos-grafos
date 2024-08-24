@@ -71,10 +71,12 @@ int main(int argc, char* argv[])
     size_t number_of_nodes;
     input_file >> number_of_nodes; // Lê o número de nós do arquivo de instância
 
-    std::cerr << "Voce quer trabalhar com um grafo com Arestas Nao Ponderadas(0) ou Ponderadas (1)?" << std::endl;
-    std::cin >> valor;
+    int ponderado;
 
-    if(valor == 0){
+    std::cerr << "Voce quer trabalhar com um grafo com Arestas Nao Ponderadas(0) ou Ponderadas (1)?" << std::endl;
+    std::cin >> ponderado;
+
+    if(ponderado == 0){
         for (size_t i = 0; i < number_of_nodes; ++i) {
             size_t node_id1;
             size_t node_id2;  
@@ -87,7 +89,6 @@ int main(int argc, char* argv[])
             graph->add_edge(node_id1,node_id2,0);
      } 
     }
-
     else{
         for (size_t i = 0; i < number_of_nodes; ++i) {
             size_t node_id1;
@@ -106,15 +107,21 @@ int main(int argc, char* argv[])
 
     valor = 1;
 
+
+
     while (valor != 0 )
     {
         std::cerr << "FUNCIONALIDADES: O que voce quer ver?" << std::endl;
         std::cerr << "Selecione um dos valores abaixo:" << std::endl;
         std::cerr << "(1) Caminho min entre dois vertices (alg Djkstra)       (2) Caminho min entre dois vertices (alg Floyd)" << std::endl;
-        std::cerr << "(3) Arvore Geradora Minima (alg Prim)                   (4) Arvore Geradora Minima (alg Kruskal)" << std::endl;
-        std::cerr << "(5) Arvore em ordem de caminhamento em profundidade     (6) O raio, o diametro, o centro e a periferia do grafo" << std::endl;
-        std::cerr << "(7) O conjunto de vertices de articulacao               ";
+        //std::cerr << "(3) Arvore Geradora Minima (alg Prim)                   (4) Arvore Geradora Minima (alg Kruskal)" << std::endl;
+        std::cerr << "(3) Arvore em ordem de caminhamento em profundidade     (4) O raio, o diametro, o centro e a periferia do grafo" << std::endl;
+        std::cerr << "(5) O conjunto de vertices de articulacao               ";
 
+        if(ponderado == 1) //Só aparecem para grafos ponderados
+        {
+            std::cerr << "(6) Arvore Geradora Minima (alg Prim)                   (7) Arvore Geradora Minima (alg Kruskal)" << std::endl;
+        }
         if(direcionado == 1) // Essas duas funcio. so aparecem p/ grafos direcionados
         {
             std::cerr << "(8) Fecho transitivo direto de um vertice "<< std::endl << "(9) Fecho transitivo indireto de um vertice " << std::endl;
@@ -154,19 +161,11 @@ int main(int argc, char* argv[])
             delete graph;
            
         }
-        else if(valor == 3) //Arvore Geradora Minima (alg Prim) 
+        else if(valor == 3) //Arvore em ordem de caminhamento em profundidade
         {
 
         }
-        else if(valor == 4) //Arvore Geradora Minima (alg Kruskal)
-        {
-
-        }
-        else if(valor == 5) //Arvore em ordem de caminhamento em profundidade
-        {
-
-        }
-        else if(valor == 6) //O raio, o diametro, o centro e a periferia do grafo
+        else if(valor == 4) //O raio, o diametro, o centro e a periferia do grafo
         {
             int radius = graph->get_radius();
             int diameter = graph->get_diameter();
@@ -190,8 +189,106 @@ int main(int argc, char* argv[])
 
             std::cerr << std::endl;
         }
-        else if(valor == 7) //Conjunto de vertices de articulação
+        else if(valor == 5) //Conjunto de vertices de articulação
         {
+
+        }
+        else if(valor == 6) //Arvore Geradora Minima (alg Prim) 
+        {
+            bool readSubGraph = true;
+            std::vector<size_t> vectorAux = {};
+            size_t no;
+
+            while(readSubGraph){
+                
+                std::cout << "Seu sub-grafo é: ";
+                for(int i=0; i< vectorAux.size(); i++){
+                    std::cout << vectorAux[i] << " ";
+                }
+
+                std::cout << std::endl;
+
+                std::cout << "Insira um novo nó no sub-grafo ou digite -1 para envia-lo à função:" << std::endl;
+
+                std::cin>> no;
+
+                if(no == -1){
+                    readSubGraph = false;
+                }else{
+                    bool flag = false;
+                    for(int i;i< vectorAux.size(); i++){
+                        if(no == vectorAux[i]){
+                            flag = true;
+                        }     
+                    }
+                    if(flag == false){
+                        if(graph->get_node(no) == nullptr){
+                            std::cout << "Nó não existente no grafo, favor inserir um nó válido."<< std::endl;
+                        }else{
+                            vectorAux.push_back(no);
+                        }
+                    }else{
+                        std::cout<< "Vértice repetido, favor inserir um nó válido." << std::endl;
+                    }
+                }
+            }
+
+            if(vectorAux.empty()){
+                std::cout<< "Sub-grafo vazio." << std::endl;
+            }else{
+                std::string result = graph->prim(vectorAux);
+
+                std::cout << result << std::endl;
+            }
+            
+        }
+        else if(valor == 7) //Arvore Geradora Minima (alg Kruskal)
+        {   
+            bool readSubGraph = true;
+            std::vector<size_t> vectorAux = {};
+            size_t no;
+
+            while(readSubGraph){
+                
+                std::cout << "Seu sub-grafo é: ";
+                for(int i=0; i< vectorAux.size(); i++){
+                    std::cout << vectorAux[i] << " ";
+                }
+
+                std::cout << std::endl;
+
+                std::cout << "Insira um novo nó no sub-grafo ou digite -1 para envia-lo à função:" << std::endl;
+
+                std::cin>> no;
+
+                if(no == -1){
+                    readSubGraph = false;
+                }else{
+                    bool flag = false;
+                    for(int i;i< vectorAux.size(); i++){
+                        if(no == vectorAux[i]){
+                            flag = true;
+                        }     
+                    }
+                    if(flag == false){
+                        if(graph->get_node(no) == nullptr){
+                            std::cout << "Nó não existente no grafo, favor inserir um nó válido."<< std::endl;
+                        }else{
+                            vectorAux.push_back(no);
+                        }
+                    }else{
+                        std::cout<< "Vértice repetido, favor inserir um nó válido." << std::endl;
+                    }
+                }
+            }
+
+            if(vectorAux.empty()){
+                std::cout<< "Sub-grafo vazio." << std::endl;
+            }else{
+                std::string result = graph->kruskal(vectorAux); // -> IMPLEMENTAR AINDA!
+
+                std::cout << result << std::endl;
+            }
 
         }
         else if(valor == 8) //Fecho transitivo direto de um vertice
