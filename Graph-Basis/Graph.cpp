@@ -666,7 +666,7 @@ std::string Graph::kruskal(std::vector<size_t>subgraph){
         Edge *edge =  currentNode->_first_edge;
         while(edge != nullptr){
             int sourceNode = currentNode->_id;
-            int targetNode = edge->_source_id;
+            int targetNode = edge->_target_id;
             int weight = edge->_weight;
             orderedEdges.push_back({weight, {sourceNode, targetNode}});
             edge = edge->_next_edge;
