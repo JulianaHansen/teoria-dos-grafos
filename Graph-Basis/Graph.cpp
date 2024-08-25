@@ -635,3 +635,86 @@ std::string Graph::prim(std::vector<size_t> subgraph) {
 
     return result;
 }
+
+std::string Graph::kruskal(std::vector<size_t>subgraph){
+
+    Graph* localGraph =  new Graph();
+    int orderAux = 0;
+
+    localGraph->_weighted_edges = true;
+
+    for(int i=0; i<subgraph.size(); i++){
+        Node *nodeAux = this->get_node(subgraph[i]);
+        Edge *edgeAux = nodeAux->_first_edge;
+        orderAux+=1;
+        while(edgeAux != nullptr){
+
+            localGraph->add_node(nodeAux->_id); // cria o no
+            localGraph->add_node(edgeAux->_target_id);
+            localGraph->add_edge(nodeAux->_id, edgeAux->_target_id, edgeAux->_weight);
+            edgeAux = edgeAux->_next_edge;
+            orderAux += 1;
+        }
+    }
+
+    localGraph->_number_of_nodes = orderAux;
+
+    std::vector<std::pair<int, std::pair<int,int>>> orderedEdges;
+
+    for(Node *currentNode = localGraph->_first; currentNode != nullptr; currentNode = currentNode->_next_node){
+
+        Edge *edge =  currentNode->_first_edge;
+        while(edge != nullptr){
+            int sourceNode = currentNode->_id;
+            int targetNode = edge->_source_id;
+            int weight = edge->_weight;
+            orderedEdges.push_back({weight, {sourceNode, targetNode}});
+            edge = edge->_next_edge;
+        }
+    }
+
+    sort(orderedEdges.begin(), orderedEdges.end());
+
+    std::vector<int> set(localGraph->_number_of_nodes);
+
+    for(int i = 0; i< localGraph->_number_of_edges; i++){
+        set[i] = i+1;
+    }
+
+    std::vector<std::pair<int,std::pair<int,int>>> msc;
+
+    for(int i=0; i< localGraph->_number_of_nodes; i++){
+        int origin = orderedEdges[i].second.first;
+        int destiny = orderedEdges[i].second.second;
+
+        if(set[origin - 1] != set[destiny -1 ]){
+            msc.push_back(orderedEdges[i]);
+
+            int originSet = set[origin-1];
+            int destinySet = set[destiny-1];
+            for(int j=0; j<localGraph->_number_of_nodes; j++){
+                if(set[j] == destinySet){
+                    set[j] = originSet;
+                }
+            }
+
+        }
+
+    }
+
+    std::string result = "Arestas da Árvore Geradora Mínima obtida pelo método de Kruskal: \n";
+
+    int totalWeight = 0;
+
+    for(auto &edge : msc){
+        int origin = edge.second.first;
+        int destiny = edge.second.second;
+        int weight = edge.first;
+        totalWeight += weight;
+        result += std::to_string(origin) + " " + std::to_string(destiny) + " " + std::to_string(weight)+ "\n";
+    }
+
+    result = "Peso total da Árvore Geradora Mínima obtida pelo método de Kruskal: " + std::to_string(totalWeight) + "\n";
+
+    return result;
+}
