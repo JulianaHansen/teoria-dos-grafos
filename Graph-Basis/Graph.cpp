@@ -564,6 +564,9 @@ std::string Graph::prim(std::vector<size_t> subgraph) {
         Edge *edgeAux = nodeAux->_first_edge;
         orderAux+=1;
         while(edgeAux != nullptr){
+
+            graphLocal->add_node(nodeAux->_id); // cria o no
+            graphLocal->add_node(edgeAux->_target_id);
             graphLocal->add_edge(nodeAux->_id, edgeAux->_target_id, edgeAux->_weight);
             edgeAux = edgeAux->_next_edge;
             orderAux += 1;

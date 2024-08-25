@@ -285,9 +285,9 @@ int main(int argc, char* argv[])
             if(vectorAux.empty()){
                 std::cout<< "Sub-grafo vazio." << std::endl;
             }else{
-                std::string result = graph->kruskal(vectorAux); // -> IMPLEMENTAR AINDA!
+                //std::string result = graph->kruskal(vectorAux); // -> IMPLEMENTAR AINDA!
 
-                std::cout << result << std::endl;
+                //std::cout << result << std::endl;
             }
 
         }
