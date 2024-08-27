@@ -146,7 +146,7 @@ void Graph::add_node(size_t node_id, float weight)
 
 
 
-void Graph::add_edge(size_t source_node_id, size_t target_node_id, float weight = 1) {
+void Graph::add_edge(size_t source_node_id, size_t target_node_id, float weight) {
     
     Node* no_saida = nullptr;
     //Aqui ele vai procurar se o no de onde sai a aresta existe
@@ -626,13 +626,13 @@ std::string Graph::prim(std::vector<size_t> subgraph) {
             int v = i+1;
             int weight = key[i];
 
-            result += std::to_string(u) + " " + std::to_string(v) + " " + std::to_string(weight) + "\n";
+            result += std::to_string(u) + " -- " + std::to_string(v) + " [" + std::to_string(weight) +"]" "\n";
 
             totalWeight+= weight;
         }
     }
 
-    result+= "Peso total da Árvore Geradora Mínima: " + std::to_string(totalWeight) + "\n";
+    result+= "Peso total da Arvore Geradora Minima: " + std::to_string(totalWeight) + "\n";
 
     return result;
 }
@@ -674,28 +674,31 @@ std::string Graph::kruskal(std::vector<size_t>subgraph){
         }
     }
 
-    sort(orderedEdges.begin(), orderedEdges.end());
+    std::sort(orderedEdges.begin(), orderedEdges.end());
 
-    std::vector<int> set(localGraph->_number_of_nodes);
+    std::vector<int> group(localGraph->_number_of_nodes);
 
-    for(int i = 0; i< localGraph->_number_of_edges; i++){
-        set[i] = i+1;
+    for(int i = 0; i< localGraph->_number_of_nodes; i++){
+        group[i] = i+1;
     }
 
     std::vector<std::pair<int,std::pair<int,int>>> msc;
 
-    for(int i=0; i< localGraph->_number_of_nodes; i++){
+    for(int i=0; i< orderedEdges.size(); i++){
         int origin = orderedEdges[i].second.first;
         int destiny = orderedEdges[i].second.second;
 
-        if(set[origin - 1] != set[destiny -1 ]){
+        std::cout << origin << std::endl;
+        std::cout << destiny << std::endl;
+
+        if(group[origin - 1] != group[destiny -1 ]){
             msc.push_back(orderedEdges[i]);
 
-            int originSet = set[origin-1];
-            int destinySet = set[destiny-1];
+            int originSet = group[origin-1];
+            int destinySet = group[destiny-1];
             for(int j=0; j<localGraph->_number_of_nodes; j++){
-                if(set[j] == destinySet){
-                    set[j] = originSet;
+                if(group[j] == destinySet){
+                    group[j] = originSet;
                 }
             }
 
@@ -703,7 +706,7 @@ std::string Graph::kruskal(std::vector<size_t>subgraph){
 
     }
 
-    std::string result = "Arestas da Árvore Geradora Mínima obtida pelo método de Kruskal: \n";
+    std::string result = "Arestas da Arvore Geradora Minima obtida pelo metodo de Kruskal: \n";
 
     int totalWeight = 0;
 
@@ -711,47 +714,48 @@ std::string Graph::kruskal(std::vector<size_t>subgraph){
         int origin = edge.second.first;
         int destiny = edge.second.second;
         int weight = edge.first;
+        std::cout << weight << std::endl;
         totalWeight += weight;
-        result += std::to_string(origin) + " " + std::to_string(destiny) + " " + std::to_string(weight)+ "\n";
+        result += std::to_string(origin) + " -- " + std::to_string(destiny) + " [" + std::to_string(weight)+ "]" "\n";
     }
 
-    result = "Peso total da Árvore Geradora Mínima obtida pelo método de Kruskal: " + std::to_string(totalWeight) + "\n";
+    result +="Peso total da Arvore Geradora Minima obtida pelo metodo de Kruskal: " + std::to_string(totalWeight) + "\n";
 
     return result;
 }
 
-void Graph::depth_first_search(size_t start_node) {
-    std::unordered_set<size_t> visited;
-    std::unordered_map<size_t, size_t> parent;
-    std::stack<size_t> stack;
-    stack.push(start_node);
-    parent[start_node] = -1; //pai do nó inicial-1 (nenhum pai)
+// void Graph::depth_first_search(size_t start_node) {
+//     std::unordered_set<size_t> visited;
+//     std::unordered_map<size_t, size_t> parent;
+//     std::stack<size_t> stack;
+//     stack.push(start_node);
+//     parent[start_node] = -1; //pai do nó inicial-1 (nenhum pai)
 
-    while (!stack.empty()) {
-        size_t current_node = stack.top();
-        stack.pop();
+//     while (!stack.empty()) {
+//         size_t current_node = stack.top();
+//         stack.pop();
 
-        if (visited.find(current_node) != visited.end()) {
-            continue;
-        }
+//         if (visited.find(current_node) != visited.end()) {
+//             continue;
+//         }
 
-        visited.insert(current_node);
-        std::cout << current_node << " ";
+//         visited.insert(current_node);
+//         std::cout << current_node << " ";
 
-        Node* node = get_node(current_node);
-        if (node) {
-            for (Edge* edge = node->_first_edge; edge; edge = edge->_next_edge) {
-                size_t target_id = edge->_target_id;
+//         Node* node = get_node(current_node);
+//         if (node) {
+//             for (Edge* edge = node->_first_edge; edge; edge = edge->_next_edge) {
+//                 size_t target_id = edge->_target_id;
 
-                if (visited.find(target_id) == visited.end()) {
-                    stack.push(target_id);
-                    parent[target_id] = current_node;
-                } else if (target_id != parent[current_node]) {
-                    std::cout << "\nAresta de retorno: " << current_node << " -> " << target_id << std::endl;
-                }
-            }
-        }
-    }
-    std::cout << std::endl;
-}
+//                 if (visited.find(target_id) == visited.end()) {
+//                     stack.push(target_id);
+//                     parent[target_id] = current_node;
+//                 } else if (target_id != parent[current_node]) {
+//                     std::cout << "\nAresta de retorno: " << current_node << " -> " << target_id << std::endl;
+//                 }
+//             }
+//         }
+//     }
+//     std::cout << std::endl;
+// }
 

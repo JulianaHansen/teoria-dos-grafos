@@ -33,7 +33,7 @@ public:
     std::vector<size_t> indirect_closure(size_t node_id);
     std::string prim(std::vector<size_t> subgraph); // TESTAR
     std::string kruskal(std::vector<size_t>subgraph); // TESTAR
-    void Graph::depth_first_search(size_t start_node);
+    //void Graph::depth_first_search(size_t start_node);
     
 private:
     size_t _number_of_nodes;

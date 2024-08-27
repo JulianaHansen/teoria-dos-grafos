@@ -116,7 +116,7 @@ int main(int argc, char* argv[])
         std::cerr << "(1) Caminho min entre dois vertices (alg Djkstra)       (2) Caminho min entre dois vertices (alg Floyd)" << std::endl;
         //std::cerr << "(3) Arvore Geradora Minima (alg Prim)                   (4) Arvore Geradora Minima (alg Kruskal)" << std::endl;
         std::cerr << "(3) Arvore em ordem de caminhamento em profundidade     (4) O raio, o diametro, o centro e a periferia do grafo" << std::endl;
-        std::cerr << "(5) O conjunto de vertices de articulacao               ";
+        std::cerr << "(5) O conjunto de vertices de articulacao               " << std::endl;
 
         if(ponderado == 1) //Só aparecem para grafos ponderados
         {
@@ -167,7 +167,7 @@ int main(int argc, char* argv[])
             std::cerr << "Qual o vértice inicial para o caminhamento em profundidade?" << std::endl;
             std::cin >> vertice_inicial;
 
-            graph->depth_first_search(vertice_inicial);
+            //graph->depth_first_search(vertice_inicial);
         }
         else if(valor == 4) //O raio, o diametro, o centro e a periferia do grafo
         {
@@ -212,7 +212,7 @@ int main(int argc, char* argv[])
 
                 std::cout << std::endl;
 
-                std::cout << "Insira um novo nó no sub-grafo ou digite -1 para envia-lo à função:" << std::endl;
+                std::cout << "Insira um novo no no sub-grafo ou digite -1 para envia-lo a funcao:" << std::endl;
 
                 std::cin>> no;
 
@@ -227,7 +227,7 @@ int main(int argc, char* argv[])
                     }
                     if(flag == false){
                         if(graph->get_node(no) == nullptr){
-                            std::cout << "Nó não existente no grafo, favor inserir um nó válido."<< std::endl;
+                            std::cout << "Nó nao existente no grafo, favor inserir um nó valido."<< std::endl;
                         }else{
                             vectorAux.push_back(no);
                         }
@@ -261,7 +261,7 @@ int main(int argc, char* argv[])
 
                 std::cout << std::endl;
 
-                std::cout << "Insira um novo nó no sub-grafo ou digite -1 para envia-lo à função:" << std::endl;
+                std::cout << "Insira um novo no no sub-grafo ou digite -1 para envia-lo a funcao:" << std::endl;
 
                 std::cin>> no;
 
@@ -276,12 +276,12 @@ int main(int argc, char* argv[])
                     }
                     if(flag == false){
                         if(graph->get_node(no) == nullptr){
-                            std::cout << "Nó não existente no grafo, favor inserir um nó válido."<< std::endl;
+                            std::cout << "No nao existente no grafo, favor inserir um no valido."<< std::endl;
                         }else{
                             vectorAux.push_back(no);
                         }
                     }else{
-                        std::cout<< "Vértice repetido, favor inserir um nó válido." << std::endl;
+                        std::cout<< "Vertice repetido, favor inserir um no valido." << std::endl;
                     }
                 }
             }
@@ -289,9 +289,9 @@ int main(int argc, char* argv[])
             if(vectorAux.empty()){
                 std::cout<< "Sub-grafo vazio." << std::endl;
             }else{
-                //std::string result = graph->kruskal(vectorAux); // -> IMPLEMENTAR AINDA!
+                std::string result = graph->kruskal(vectorAux); // -> IMPLEMENTAR AINDA!
 
-                //std::cout << result << std::endl;
+                std::cout << result << std::endl;
             }
 
         }
