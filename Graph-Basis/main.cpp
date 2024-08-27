@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
     
     if (direcionado == 0) //é um grafo nao direcionado entao sao os arquivos U
     {
-        while(valor != 5 && valor != 15 && valor != 50 && valor != 50)
+        while(valor != 5 && valor != 15 && valor != 50 && valor != 100)
         {
             std::cerr << "Voce quer trabalhar com um grafo Nao Direcionado com quantos nos? 5, 15, 50 ou 100?" << std::endl;
             std::cin >> valor;
@@ -38,12 +38,12 @@ int main(int argc, char* argv[])
         }
         if(valor == 100){
             input_file.close(); 
-            input_file.open("instances_example/100nU_2.dat");
+            input_file.open("instances_example/100nU.dat");
         }
     }
     else //é um grafo direcionado entao sao os arquivos D
     {
-        while(valor != 5 && valor != 15 && valor != 50 && valor != 50)
+        while(valor != 5 && valor != 15 && valor != 50 && valor != 100)
         {
             std::cerr << "Voce quer trabalhar com um grafo Nao Direcionado com quantos nos? 5, 15, 50 ou 100?" << std::endl;
             std::cin >> valor;
@@ -63,13 +63,13 @@ int main(int argc, char* argv[])
         }
         if(valor == 100){
             input_file.close(); 
-            input_file.open("instances_example/100nD_2.dat");
+            input_file.open("instances_example/100nD.dat");
         }
     }
     
     
     if(!input_file){
-         std::cerr << "Erro ao abrir o arquivo de instância." << std::endl;
+         std::cerr << "Erro ao abrir o arquivo de instancia." << std::endl;
          return 1;
     }
 
@@ -78,7 +78,7 @@ int main(int argc, char* argv[])
     size_t number_of_nodes;
     input_file >> number_of_nodes; // Lê o número de nós do arquivo de instância
 
-    int ponderado;
+    int ponderado = -1;
 
     while(ponderado != 0 && ponderado != 1)
         {

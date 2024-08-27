@@ -8,10 +8,12 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed Jul 10 16:36:08 2024
+# Make data base, printed on Tue Aug 27 16:27:46 2024
 
 # Variables
 
+# environment
+FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
 # environment
 SYSTEMDRIVE = C:
 # environment
@@ -34,13 +36,16 @@ SYSTEMROOT = C:\WINDOWS
 PROCESSOR_LEVEL = 6
 # environment
 PSMODULEPATH = C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
+# environment
+EFC_16836 = 1
 # default
-MAKE_COMM 
-AND := C:/ProgramData/chocolatey/lib/make/tools/install/bin/make.exe
+MAKE_COMMAND := C:/ProgramData/chocolatey/lib/make/tools/install/bin/make.exe
 # automatic
 @D = $(patsubst %/,%,$(patsubst %\,%,$(dir $@)))
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_11764_HQGKEJCQUWSXADPX
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_1648_MHXHRJNIVXUQEJQF
+# environment
+FPS_BROWSER_USER_PROFILE_STRING = Default
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # default
@@ -52,8 +57,7 @@ VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # automatic
 %F = $(notdir $%)
 # environment
-VSCODE_CODE_CACHE_PATH = C:\Users\55249\AppData\Roaming\ 
-Code\CachedData\5437499feb04f7a586f677b155b039bc2b3669eb
+VSCODE_CODE_CACHE_PATH = C:\Users\55249\AppData\Roaming\Code\CachedData\fee1edb8d6d72a0ddff41e5f71a671c23ed924b9
 # environment
 LANG = C
 # default
@@ -71,10 +75,9 @@ ONEDRIVE = C:\Users\55249\OneDrive
 # makefile
 CURDIR := c:/Users/55249/Graph-Basis2/teoria-dos-grafos
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # environment
-VSCODE_L10N_BUNDLE_LOCATION = file:///c%3A/Users/55249/.vscode/ 
-extensions/ms-ceintl.vscode-language-pack-pt-br-1.91.2024070309/translations/extensions/vscode.json-language-features.i18n.json
+VSCODE_L10N_BUNDLE_LOCATION = file:///c%3A/Users/55249/.vscode/extensions/ms-ceintl.vscode-language-pack-pt-br-1.92.2024081409/translations/extensions/vscode.json-language-features.i18n.json
 # automatic
 *D = $(patsubst %/,%,$(patsubst %\,%,$(dir $*)))
 # environment
@@ -92,8 +95,7 @@ MAKEFILE_LIST :=
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 11 
-764
+VSCODE_PID = 1648
 # automatic
 ?D = $(patsubst %/,%,$(patsubst %\,%,$(dir $?)))
 # automatic
@@ -101,8 +103,7 @@ VSCODE_PID = 11
 # automatic
 <D = $(patsubst %/,%,$(patsubst %\,%,$(dir $<)))
 # environment
-VSCODE_NLS_CONFIG = {"locale":"pt-br","osLocale":"pt-br","availableLanguages":{"*":"pt-br"},"_languagePackId":"c3e6ce3058689cb924e8b6304ac0aecc.pt-br","_translationsConfigFile":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\c3e6ce3058689cb924e8b6304ac0aecc.pt-br\\tcf.json","_cacheRoot":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\c3e6ce 
-3058689cb924e8b6304ac0aecc.pt-br","_resolvedLanguagePackCoreLocation":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\c3e6ce3058689cb924e8b6304ac0aecc.pt-br\\5437499feb04f7a586f677b155b039bc2b3669eb","_corruptedFile":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\c3e6ce3058689cb924e8b6304ac0aecc.pt-br\\corrupted.info","_languagePackSupport":true}
+VSCODE_NLS_CONFIG = {"userLocale":"pt-br","osLocale":"pt-br","resolvedLanguage":"pt-br","defaultMessagesFile":"C:\\Users\\55249\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\nls.messages.json","languagePack":{"translationsConfigFile":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\674775b5c5c6f3bdfa51ea990a705733.pt-br\\tcf.json","messagesFile":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\674775b5c5c6f3bdfa51ea990a705733.pt-br\\fee1edb8d6d72a0ddff41e5f71a671c23ed924b9\\nls.messages.json","corruptMarkerFile":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\674775b5c5c6f3bdfa51ea990a705733.pt-br\\corrupted.info"},"locale":"pt-br","availableLanguages":{"*":"pt-br"},"_languagePackId":"674775b5c5c6f3bdfa51ea990a705733.pt-br","_languagePackSupport":true,"_translationsConfigFile":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\674775b5c5c6f3bdfa51ea990a705733.pt-br\\tcf.json","_cacheRoot":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\674775b5c5c6f3bdfa51ea990a705733.pt-br","_resolvedLanguagePackCoreLocation":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\674775b5c5c6f3bdfa51ea990a705733.pt-br\\fee1edb8d6d72a0ddff41e5f71a671c23ed924b9","_corruptedFile":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\674775b5c5c6f3bdfa51ea990a705733.pt-br\\corrupted.info"}
 # environment
 ONEDRIVECONSUMER = C:\Users\55249\OneDrive
 # default
@@ -110,8 +111,7 @@ MAKE_HOST := Windows32
 # environment
 PROGRAMDATA = C:\ProgramData
 # default
-SHELL := C:/Program 
- Files/Git/usr/bin/sh.exe
+SHELL := C:/Program Files/Git/usr/bin/sh.exe
 # environment
 HOMEPATH = \Users\55249
 # default
@@ -127,8 +127,7 @@ MAKELEVEL := 0
 # default
 MAKE = $(MAKE_COMMAND)
 # environment
-PATH = C:\Program Files\Common Files\Oracle\Java\javapath;C:\Python310\Scripts\;C:\Python310\;C:\Java\zulu11.52.13-ca-jdk11.0.13-win_x64\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Program Files (x86)\Git\cmd;C:\Program Files\CMake\bin;C:\Users\55249\OneDrive\Documentos\Flutter\flutter\bin;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\Users\55249\AppData\Local\Microsoft\WindowsApps;C:\Program Files\heroku\bin;C:\Users\55249\AppData\Roaming 
-\npm;C:\Users\55249\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\55249\AppData\Local\GitHubDesktop\bin;C:\tools\dart-sdk\bin;C:\Users\55249\AppData\Local\Pub\Cache\bin;C:\MinGW\bin;C:\Users\55249\AppData\Local\Microsoft\WinGet\Links;
+PATH = C:\Program Files\Common Files\Oracle\Java\javapath;C:\Python310\Scripts\;C:\Python310\;C:\Java\zulu11.52.13-ca-jdk11.0.13-win_x64\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Program Files (x86)\Git\cmd;C:\Program Files\CMake\bin;C:\Users\55249\OneDrive\Documentos\Flutter\flutter\bin;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\Users\55249\AppData\Local\Microsoft\WindowsApps;C:\Program Files\heroku\bin;C:\Users\55249\AppData\Roaming\npm;C:\Users\55249\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\55249\AppData\Local\GitHubDesktop\bin;C:\tools\dart-sdk\bin;C:\Users\55249\AppData\Local\Pub\Cache\bin;C:\MinGW\bin;C:\Users\55249\AppData\Local\Microsoft\WinGet\Links;
 # environment
 ZES_ENABLE_SYSMAN = 1
 # environment
@@ -192,9 +191,7 @@ ELECTRON_RUN_AS_NODE = 1
 # environment
 TEMP = C:\Users\55249\AppData\Local\Temp
 # environment
-VSCODE_IPC_HOOK = \\.\pipe\77014ff1-1.90.2-main-sock
-# environment
-EFC_20280 = 1
+VSCODE_IPC_HOOK = \\.\pipe\77014ff1-1.92.2-main-sock
 # default
 .RECIPEPREFIX := 
 # automatic
@@ -214,7 +211,7 @@ CHOCOLATEYTOOLSLOCATION = C:\tools
 # environment
 PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 126 Stepping 5, GenuineIntel
 # variable set hash-table stats:
-# Load=97/1024=9%, Rehash=0, Collisions=10/121=8%
+# Load=99/1024=10%, Rehash=0, Collisions=12/123=10%
 
 # Pattern-specific Variable Values
 
@@ -274,8 +271,7 @@ GNUmakefile:
 #  Failed to be updated.
 
 # files hash-table stats:
-# Load=7/1024=1%, Reha 
-sh=0, Collisions=0/17=0%
+# Load=7/1024=1%, Rehash=0, Collisions=0/17=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
@@ -288,6 +284,6 @@ sh=0, Collisions=0/17=0%
 # strcache performance: lookups = 16 / hit rate = 18%
 # hash-table stats:
 # Load=13/8192=0%, Rehash=0, Collisions=0/16=0%
-# Finished Make data base on Wed Jul 10 16:36:08 2024
+# Finished Make data base on Tue Aug 27 16:27:46 2024
 
  
