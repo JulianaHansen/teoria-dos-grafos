@@ -205,7 +205,7 @@ int main(int argc, char* argv[])
         }
         else if(valor == 5) //Conjunto de vertices de articulação
         {
-
+            graph->find_articulation_points();
         }
         else if(valor == 6) //Arvore Geradora Minima (alg Prim) 
         {

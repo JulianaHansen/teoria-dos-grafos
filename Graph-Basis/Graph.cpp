@@ -729,7 +729,7 @@ void Graph::depth_first_search(size_t start_node) {
     std::unordered_map<size_t, size_t> parent;
     std::stack<size_t> stack;
     stack.push(start_node);
-    parent[start_node] = -1; //pai do nó inicial -1 (nenhum pai)
+    parent[start_node] = -1; //nó inicial não tem pai
 
     while (!stack.empty()) {
         size_t current_node = stack.top();
@@ -759,4 +759,52 @@ void Graph::depth_first_search(size_t start_node) {
     std::cout << std::endl;
 }
 
+void Graph::find_articulation_points() {
+    std::unordered_set<size_t> articulation_points;
+    std::vector<size_t> disc(_number_of_nodes, -1);
+    std::vector<size_t> low(_number_of_nodes, -1);
+    std::vector<size_t> parent(_number_of_nodes, -1);
+    size_t time = 0;
 
+    for (size_t i = 0; i < _number_of_nodes; ++i) {
+        if (disc[i] == -1) {  //não foi visitado
+            dfs(i, articulation_points, disc, low, parent, time, i);
+        }
+    }
+
+    std::cout << "Pontos de articulação: ";
+    for (size_t point : articulation_points) {
+        std::cout << point << " ";
+    }
+    std::cout << std::endl;
+}
+
+void Graph::dfs(size_t u, std::unordered_set<size_t>& articulation_points, std::vector<size_t>& disc, std::vector<size_t>& low, std::vector<size_t>& parent, size_t& time, size_t root) {
+    size_t children = 0;
+    disc[u] = low[u] = ++time;
+
+    Node* node = get_node(u);
+    if (!node) return;
+
+    for (Edge* edge = node->_first_edge; edge != nullptr; edge = edge->_next_edge) {
+        size_t v = edge->_target_id;
+
+        if (disc[v] == -1) {  //não foi visitado
+            ++children;
+            parent[v] = u;
+            dfs(v, articulation_points, disc, low, parent, time, root);
+
+            low[u] = std::min(low[u], low[v]);
+
+            //u é um ponto de articulação se:
+            if (parent[u] == -1 && children > 1) {
+                articulation_points.insert(u);
+            }
+            if (parent[u] != -1 && low[v] >= disc[u]) {
+                articulation_points.insert(u);
+            }
+        } else if (v != parent[u]) {  // Atualiza low[u] para o caso de um back edge
+            low[u] = std::min(low[u], disc[v]);
+        }
+    }
+}

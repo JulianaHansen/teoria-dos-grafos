@@ -4,6 +4,7 @@
 #include "Node.hpp"
 #include "defines.hpp"
 #include <string>
+#include <unordered_set>
 
 class Graph
 {
@@ -34,7 +35,8 @@ public:
     std::string prim(std::vector<size_t> subgraph);
     std::string kruskal(std::vector<size_t>subgraph);
     void depth_first_search(size_t start_node);
-    //void articulation_points();
+    void find_articulation_points();
+    void dfs(size_t u, std::unordered_set<size_t>& articulation_points, std::vector<size_t>& disc, std::vector<size_t>& low, std::vector<size_t>& parent, size_t& time, size_t root);
     
 private:
     size_t _number_of_nodes;
