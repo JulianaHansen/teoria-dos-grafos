@@ -615,7 +615,7 @@ std::string Graph::prim(std::vector<size_t> subgraph) {
 
     }
 
-    std::string result = "Arestas da Árvore Geradora Mínima obtida pelo método de PRIM: \n";
+    std::string result = "Arestas da Arvore Geradora Minima obtida pelo metodo de PRIM: \n";
 
     int totalWeight = 0;
 

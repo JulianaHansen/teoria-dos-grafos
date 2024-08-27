@@ -4,7 +4,7 @@
 
 int main(int argc, char* argv[])
 {
-    int valor;
+    int valor = -1;
     int direcionado = -1; // vai salvar se o grafo é direcionado ou nao para usar essa inf no menu de funcionalidades. inicializado com -1 pra nao dar erro 
     std::ifstream input_file("instances_example/5nU_2.dat");
 
@@ -13,13 +13,17 @@ int main(int argc, char* argv[])
       std::cerr << "Ola! Voce quer trabalhar com um grafo Nao Direcionado(0)" << std::endl;
       std::cerr << "ou um grafo Direcionado(1)? " << std::endl; 
       std::cin >> direcionado;
+     
     }
     
     if (direcionado == 0) //é um grafo nao direcionado entao sao os arquivos U
     {
-        std::cerr << "Voce quer trabalhar com um grafo Nao Direcionado com quantos nos? 5, 15, 50 ou 100?" << std::endl;
-        std::cin >> valor;
-
+        while(valor != 5 && valor != 15 && valor != 50 && valor != 50)
+        {
+            std::cerr << "Voce quer trabalhar com um grafo Nao Direcionado com quantos nos? 5, 15, 50 ou 100?" << std::endl;
+            std::cin >> valor;
+        }
+        
         if(valor == 5){
             input_file.close(); 
             input_file.open("instances_example/5nU_2.dat");
@@ -39,8 +43,11 @@ int main(int argc, char* argv[])
     }
     else //é um grafo direcionado entao sao os arquivos D
     {
-        std::cerr << "Voce quer trabalhar com um grafo Direcionado com quantos nos? 5, 15, 50 ou 100?" << std::endl;
-        std::cin >> valor;
+        while(valor != 5 && valor != 15 && valor != 50 && valor != 50)
+        {
+            std::cerr << "Voce quer trabalhar com um grafo Nao Direcionado com quantos nos? 5, 15, 50 ou 100?" << std::endl;
+            std::cin >> valor;
+        }
 
         if(valor == 5){
             input_file.close(); 
@@ -73,8 +80,11 @@ int main(int argc, char* argv[])
 
     int ponderado;
 
-    std::cerr << "Voce quer trabalhar com um grafo com Arestas Nao Ponderadas(0) ou Ponderadas (1)?" << std::endl;
-    std::cin >> ponderado;
+    while(ponderado != 0 && ponderado != 1)
+        {
+            std::cerr << "Voce quer trabalhar com um grafo com Arestas Nao Ponderadas(0) ou Ponderadas (1)?" << std::endl;
+            std::cin >> ponderado;
+        }
 
     if(ponderado == 0){
         for (size_t i = 0; i < number_of_nodes; ++i) {
@@ -254,7 +264,7 @@ int main(int argc, char* argv[])
 
             while(readSubGraph){
                 
-                std::cout << "Seu sub-grafo é: ";
+                std::cout << "Seu sub-grafo e: ";
                 for(int i=0; i< vectorAux.size(); i++){
                     std::cout << vectorAux[i] << " ";
                 }
