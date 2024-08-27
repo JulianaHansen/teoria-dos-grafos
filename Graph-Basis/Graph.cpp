@@ -2,6 +2,7 @@
 #include <limits>
 #include <unordered_set>
 #include <stack>
+#include <set>
 
 const float INF = std::numeric_limits<float>::infinity();
 
@@ -145,7 +146,7 @@ void Graph::add_node(size_t node_id, float weight)
 
 
 
-void Graph::add_edge(size_t source_node_id, size_t target_node_id, float weight) {
+void Graph::add_edge(size_t source_node_id, size_t target_node_id, float weight = 1) {
     
     Node* no_saida = nullptr;
     //Aqui ele vai procurar se o no de onde sai a aresta existe
@@ -718,3 +719,39 @@ std::string Graph::kruskal(std::vector<size_t>subgraph){
 
     return result;
 }
+
+void Graph::depth_first_search(size_t start_node) {
+    std::unordered_set<size_t> visited;
+    std::unordered_map<size_t, size_t> parent;
+    std::stack<size_t> stack;
+    stack.push(start_node);
+    parent[start_node] = -1; //pai do nó inicial-1 (nenhum pai)
+
+    while (!stack.empty()) {
+        size_t current_node = stack.top();
+        stack.pop();
+
+        if (visited.find(current_node) != visited.end()) {
+            continue;
+        }
+
+        visited.insert(current_node);
+        std::cout << current_node << " ";
+
+        Node* node = get_node(current_node);
+        if (node) {
+            for (Edge* edge = node->_first_edge; edge; edge = edge->_next_edge) {
+                size_t target_id = edge->_target_id;
+
+                if (visited.find(target_id) == visited.end()) {
+                    stack.push(target_id);
+                    parent[target_id] = current_node;
+                } else if (target_id != parent[current_node]) {
+                    std::cout << "\nAresta de retorno: " << current_node << " -> " << target_id << std::endl;
+                }
+            }
+        }
+    }
+    std::cout << std::endl;
+}
+

@@ -5,7 +5,7 @@
 int main(int argc, char* argv[])
 {
     int valor;
-    int direcionado; // vai salvar se o grafo é direcionado ou nao para usar essa inf no menu de funcionalidades
+    int direcionado = -1; // vai salvar se o grafo é direcionado ou nao para usar essa inf no menu de funcionalidades. inicializado com -1 pra nao dar erro 
     std::ifstream input_file("instances_example/5nU_2.dat");
 
     while(direcionado != 0 && direcionado != 1)
@@ -163,7 +163,11 @@ int main(int argc, char* argv[])
         }
         else if(valor == 3) //Arvore em ordem de caminhamento em profundidade
         {
+            int vertice_inicial;
+            std::cerr << "Qual o vértice inicial para o caminhamento em profundidade?" << std::endl;
+            std::cin >> vertice_inicial;
 
+            graph->depth_first_search(vertice_inicial);
         }
         else if(valor == 4) //O raio, o diametro, o centro e a periferia do grafo
         {
@@ -285,9 +289,9 @@ int main(int argc, char* argv[])
             if(vectorAux.empty()){
                 std::cout<< "Sub-grafo vazio." << std::endl;
             }else{
-                std::string result = graph->kruskal(vectorAux); // -> IMPLEMENTAR AINDA!
+                //std::string result = graph->kruskal(vectorAux); // -> IMPLEMENTAR AINDA!
 
-                std::cout << result << std::endl;
+                //std::cout << result << std::endl;
             }
 
         }
