@@ -31,9 +31,10 @@ public:
     std::vector<size_t> get_periphery();
     std::vector<size_t> direct_closure(size_t node_id);
     std::vector<size_t> indirect_closure(size_t node_id);
-    std::string prim(std::vector<size_t> subgraph); // TESTAR
-    std::string kruskal(std::vector<size_t>subgraph); // TESTAR
-    //void Graph::depth_first_search(size_t start_node);
+    std::string prim(std::vector<size_t> subgraph);
+    std::string kruskal(std::vector<size_t>subgraph);
+    void depth_first_search(size_t start_node);
+    //void articulation_points();
     
 private:
     size_t _number_of_nodes;

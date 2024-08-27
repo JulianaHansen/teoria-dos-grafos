@@ -177,7 +177,7 @@ int main(int argc, char* argv[])
             std::cerr << "Qual o vértice inicial para o caminhamento em profundidade?" << std::endl;
             std::cin >> vertice_inicial;
 
-            //graph->depth_first_search(vertice_inicial);
+            graph->depth_first_search(vertice_inicial);
         }
         else if(valor == 4) //O raio, o diametro, o centro e a periferia do grafo
         {
