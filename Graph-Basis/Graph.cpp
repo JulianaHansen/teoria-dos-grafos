@@ -46,6 +46,7 @@ void Graph::remove_node(size_t node_position)
             {
                 if (conected(nodeCompared->_id, node_position) == 1)
                 {
+                    //_removed_edges[node_position].push_back({nodeCompared->_id, node_position});
                     remove_edge(nodeCompared->_id, node_position);
                 }
 
@@ -759,16 +760,26 @@ void Graph::depth_first_search(size_t start_node) {
     std::cout << std::endl;
 }
 
+bool Graph::has_edges(size_t u) {
+    Node* node = get_node(u);
+    if (!node) {
+        return false; // O vértice não existe
+    }
+    return node->_first_edge != nullptr; // Retorna true se houver pelo menos uma aresta conectada
+}
+
 void Graph::find_articulation_points() {
     std::unordered_set<size_t> articulation_points;
-    std::vector<size_t> disc(_number_of_nodes, -1);
-    std::vector<size_t> low(_number_of_nodes, -1);
-    std::vector<size_t> parent(_number_of_nodes, -1);
-    size_t time = 0;
+    int initial_components = count_connected_components();
 
-    for (size_t i = 0; i < _number_of_nodes; ++i) {
-        if (disc[i] == -1) {  //não foi visitado
-            dfs(i, articulation_points, disc, low, parent, time, i);
+    for (size_t u = 0; u < _number_of_nodes; ++u) {
+        if (has_edges(u)) {
+            remove_node(u);
+            int new_components = count_connected_components();
+            if (new_components < initial_components) {
+                articulation_points.insert(u);
+            }
+            restore_node(u); // Restaura o vértice removido
         }
     }
 
@@ -779,32 +790,62 @@ void Graph::find_articulation_points() {
     std::cout << std::endl;
 }
 
-void Graph::dfs(size_t u, std::unordered_set<size_t>& articulation_points, std::vector<size_t>& disc, std::vector<size_t>& low, std::vector<size_t>& parent, size_t& time, size_t root) {
-    size_t children = 0;
-    disc[u] = low[u] = ++time;
+int Graph::count_connected_components() {
+    std::vector<bool> visited(_number_of_nodes, false);
+    int component_count = 0;
+
+    for (size_t i = 0; i < _number_of_nodes; ++i) {
+        if (!visited[i] && has_edges(i)) {
+            dfs_count_components(i, visited);
+            ++component_count;
+        }
+    }
+
+    return component_count;
+}
+
+void Graph::dfs_count_components(size_t u, std::vector<bool>& visited) {
+    visited[u] = true;
 
     Node* node = get_node(u);
     if (!node) return;
 
     for (Edge* edge = node->_first_edge; edge != nullptr; edge = edge->_next_edge) {
         size_t v = edge->_target_id;
-
-        if (disc[v] == -1) {  //não foi visitado
-            ++children;
-            parent[v] = u;
-            dfs(v, articulation_points, disc, low, parent, time, root);
-
-            low[u] = std::min(low[u], low[v]);
-
-            //u é um ponto de articulação se:
-            if (parent[u] == -1 && children > 1) {
-                articulation_points.insert(u);
-            }
-            if (parent[u] != -1 && low[v] >= disc[u]) {
-                articulation_points.insert(u);
-            }
-        } else if (v != parent[u]) {  // Atualiza low[u] para o caso de um back edge
-            low[u] = std::min(low[u], disc[v]);
+        if (!visited[v]) {
+            dfs_count_components(v, visited);
         }
     }
+}
+
+void Graph::restore_node(size_t node_position) {
+    // if (_removed_edges.find(node_position) == _removed_edges.end()) {
+    // //     std::cerr << "Erro: Não há informações para restaurar o nó " << node_position << std::endl;
+    // //     return;
+    // // }
+
+    // // Restaura o nó
+    // Node* new_node = new Node();
+    // new_node->_id = node_position;
+    
+    // // Insere o nó de volta na lista de nós do grafo
+    // if (this->_first == nullptr) {
+    //     this->_first = new_node;
+    //     this->_last = new_node;
+    // } else {
+    //     this->_last->_next_node = new_node;
+    //     new_node->_previous_node = this->_last;
+    //     this->_last = new_node;
+    // }
+
+    // // Restaura as arestas removidas
+    // for (const auto& edge : _removed_edges[node_position]) {
+    //     // Arestas armazenadas como pares {source, target}
+    //     add_edge(edge.first, edge.second);
+    // }
+
+    // // Limpa as arestas armazenadas após restaurar
+    // _removed_edges.erase(node_position);
+
+    // this->_number_of_nodes++;
 }

@@ -5,6 +5,7 @@
 #include "defines.hpp"
 #include <string>
 #include <unordered_set>
+#include <unordered_map>
 
 class Graph
 {
@@ -36,7 +37,10 @@ public:
     std::string kruskal(std::vector<size_t>subgraph);
     void depth_first_search(size_t start_node);
     void find_articulation_points();
-    void dfs(size_t u, std::unordered_set<size_t>& articulation_points, std::vector<size_t>& disc, std::vector<size_t>& low, std::vector<size_t>& parent, size_t& time, size_t root);
+    bool has_edges(size_t u);
+    int count_connected_components();
+    void dfs_count_components(size_t u, std::vector<bool>& visited);
+    void restore_node(size_t node_position);
     
 private:
     size_t _number_of_nodes;
@@ -48,6 +52,7 @@ private:
     Node  *_last;
     std::vector<std::vector<float>> dist;
     std::vector<std::vector<int>> next;
+    //std::unordered_map<size_t, std::vector<std::pair<size_t, size_t>>> _removed_edges;
 };
 
 #endif  //GRAPH_HPP
