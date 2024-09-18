@@ -1,6 +1,6 @@
 make.exe --dry-run --always-make --keep-going --print-directory
-make: *** No targets specified and no makefile found.  Stop.
-
 make: Entering directory 'c:/Users/55249/Graph-Basis2/teoria-dos-grafos'
 make: Leaving directory 'c:/Users/55249/Graph-Basis2/teoria-dos-grafos'
  
+make: *** No targets specified and no makefile found.  Stop.
+

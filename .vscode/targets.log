@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Tue Aug 27 16:27:46 2024
+# Make data base, printed on Wed Sep 18 11:38:38 2024
 
 # Variables
 
@@ -36,14 +36,12 @@ SYSTEMROOT = C:\WINDOWS
 PROCESSOR_LEVEL = 6
 # environment
 PSMODULEPATH = C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
-# environment
-EFC_16836 = 1
 # default
 MAKE_COMMAND := C:/ProgramData/chocolatey/lib/make/tools/install/bin/make.exe
 # automatic
 @D = $(patsubst %/,%,$(patsubst %\,%,$(dir $@)))
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_1648_MHXHRJNIVXUQEJQF
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_29544_ZOHCALJNRRPBQGID
 # environment
 FPS_BROWSER_USER_PROFILE_STRING = Default
 # environment
@@ -57,7 +55,7 @@ VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # automatic
 %F = $(notdir $%)
 # environment
-VSCODE_CODE_CACHE_PATH = C:\Users\55249\AppData\Roaming\Code\CachedData\fee1edb8d6d72a0ddff41e5f71a671c23ed924b9
+VSCODE_CODE_CACHE_PATH = C:\Users\55249\AppData\Roaming\Code\CachedData\38c31bc77e0dd6ae88a4e9cc93428cc27a56ba40
 # environment
 LANG = C
 # default
@@ -76,8 +74,6 @@ ONEDRIVE = C:\Users\55249\OneDrive
 CURDIR := c:/Users/55249/Graph-Basis2/teoria-dos-grafos
 # environment
 APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
-# environment
-VSCODE_L10N_BUNDLE_LOCATION = file:///c%3A/Users/55249/.vscode/extensions/ms-ceintl.vscode-language-pack-pt-br-1.92.2024081409/translations/extensions/vscode.json-language-features.i18n.json
 # automatic
 *D = $(patsubst %/,%,$(patsubst %\,%,$(dir $*)))
 # environment
@@ -95,7 +91,7 @@ MAKEFILE_LIST :=
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 1648
+VSCODE_PID = 29544
 # automatic
 ?D = $(patsubst %/,%,$(patsubst %\,%,$(dir $?)))
 # automatic
@@ -103,7 +99,7 @@ VSCODE_PID = 1648
 # automatic
 <D = $(patsubst %/,%,$(patsubst %\,%,$(dir $<)))
 # environment
-VSCODE_NLS_CONFIG = {"userLocale":"pt-br","osLocale":"pt-br","resolvedLanguage":"pt-br","defaultMessagesFile":"C:\\Users\\55249\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\nls.messages.json","languagePack":{"translationsConfigFile":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\674775b5c5c6f3bdfa51ea990a705733.pt-br\\tcf.json","messagesFile":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\674775b5c5c6f3bdfa51ea990a705733.pt-br\\fee1edb8d6d72a0ddff41e5f71a671c23ed924b9\\nls.messages.json","corruptMarkerFile":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\674775b5c5c6f3bdfa51ea990a705733.pt-br\\corrupted.info"},"locale":"pt-br","availableLanguages":{"*":"pt-br"},"_languagePackId":"674775b5c5c6f3bdfa51ea990a705733.pt-br","_languagePackSupport":true,"_translationsConfigFile":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\674775b5c5c6f3bdfa51ea990a705733.pt-br\\tcf.json","_cacheRoot":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\674775b5c5c6f3bdfa51ea990a705733.pt-br","_resolvedLanguagePackCoreLocation":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\674775b5c5c6f3bdfa51ea990a705733.pt-br\\fee1edb8d6d72a0ddff41e5f71a671c23ed924b9","_corruptedFile":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\674775b5c5c6f3bdfa51ea990a705733.pt-br\\corrupted.info"}
+VSCODE_NLS_CONFIG = {"userLocale":"pt-br","osLocale":"pt-br","resolvedLanguage":"pt-br","defaultMessagesFile":"C:\\Users\\55249\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\nls.messages.json","languagePack":{"translationsConfigFile":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\75963df59864247ecfa9be810fa1dc8e.pt-br\\tcf.json","messagesFile":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\75963df59864247ecfa9be810fa1dc8e.pt-br\\38c31bc77e0dd6ae88a4e9cc93428cc27a56ba40\\nls.messages.json","corruptMarkerFile":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\75963df59864247ecfa9be810fa1dc8e.pt-br\\corrupted.info"},"locale":"pt-br","availableLanguages":{"*":"pt-br"},"_languagePackId":"75963df59864247ecfa9be810fa1dc8e.pt-br","_languagePackSupport":true,"_translationsConfigFile":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\75963df59864247ecfa9be810fa1dc8e.pt-br\\tcf.json","_cacheRoot":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\75963df59864247ecfa9be810fa1dc8e.pt-br","_resolvedLanguagePackCoreLocation":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\75963df59864247ecfa9be810fa1dc8e.pt-br\\38c31bc77e0dd6ae88a4e9cc93428cc27a56ba40","_corruptedFile":"C:\\Users\\55249\\AppData\\Roaming\\Code\\clp\\75963df59864247ecfa9be810fa1dc8e.pt-br\\corrupted.info"}
 # environment
 ONEDRIVECONSUMER = C:\Users\55249\OneDrive
 # default
@@ -163,6 +159,8 @@ USERDOMAIN = DESKTOP-0U9BVHJ
 # 'override' directive
 GNUMAKEFLAGS := 
 # environment
+EFC_3832 = 1
+# environment
 OS = Windows_NT
 # makefile
 .DEFAULT_GOAL := 
@@ -191,7 +189,7 @@ ELECTRON_RUN_AS_NODE = 1
 # environment
 TEMP = C:\Users\55249\AppData\Local\Temp
 # environment
-VSCODE_IPC_HOOK = \\.\pipe\77014ff1-1.92.2-main-sock
+VSCODE_IPC_HOOK = \\.\pipe\77014ff1-1.93.1-main-sock
 # default
 .RECIPEPREFIX := 
 # automatic
@@ -203,7 +201,8 @@ ALLUSERSPROFILE = C:\ProgramData
 # environment
 SESSIONNAME = Console
 # default
-.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs notintermediate shell-export archives jobserver output-sync load dospaths
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-t 
+arget extra-prereqs notintermediate shell-export archives jobserver output-sync load dospaths
 # environment
 PROCESSOR_REVISION = 7e05
 # environment
@@ -211,7 +210,7 @@ CHOCOLATEYTOOLSLOCATION = C:\tools
 # environment
 PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 126 Stepping 5, GenuineIntel
 # variable set hash-table stats:
-# Load=99/1024=10%, Rehash=0, Collisions=12/123=10%
+# Load=98/1024=10%, Rehash=0, Collisions=10/122=8%
 
 # Pattern-specific Variable Values
 
@@ -284,6 +283,6 @@ GNUmakefile:
 # strcache performance: lookups = 16 / hit rate = 18%
 # hash-table stats:
 # Load=13/8192=0%, Rehash=0, Collisions=0/16=0%
-# Finished Make data base on Tue Aug 27 16:27:46 2024
+# Finished Make data base on Wed Sep 18 11:38:38 2024
 
  

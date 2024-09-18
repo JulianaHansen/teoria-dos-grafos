@@ -72,6 +72,13 @@
         "stack": "cpp",
         "unordered_set": "cpp",
         "set": "cpp",
-        "xtree": "cpp"
+        "xtree": "cpp",
+        "locale": "cpp",
+        "regex": "cpp",
+        "xlocbuf": "cpp",
+        "xlocmes": "cpp",
+        "chrono": "cpp",
+        "filesystem": "cpp",
+        "ratio": "cpp"
     }
 }
