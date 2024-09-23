@@ -12,7 +12,12 @@ int main() {
     }
 
     // Executa o algoritmo guloso para resolver o MGGPP
-    g.algoritmoGulosoBalanceadoMGGPP();
-
+    g.algoritmoGulosoMGGPP();
+    g.imprimirSubgrafos();
+    
+    int somaDosGaps = g.calcularSomaDosGaps();
+    if (somaDosGaps != -1) {
+        std::cout << "Soma dos gaps: " << somaDosGaps << std::endl;
+    }
     return 0;
 }

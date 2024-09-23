@@ -26,13 +26,14 @@ public:
     int lerArquivo(const std::string& nomeArquivo);
 
     // Função que implementa o algoritmo guloso para o MGGPP
-    void algoritmoGulosoBalanceadoMGGPP();
+    void algoritmoGulosoMGGPP();
 
-    int calcularSomaDosGaps(const std::vector<Subgraph>& subgrafos);
+    int calcularSomaDosGaps() const;
 
-    int calcularGap(const std::vector<Subgraph>& subgrafos);
+    int escolherSubgrafo(int v);
 
-    int escolherSubgrafoMinimoGap(const std::vector<Subgraph>& subgrafos, int v);
+    void imprimirSubgrafos() const;
+
 
     // Variáveis públicas para armazenar os dados do grafo
     int p; // número de subgrafos
@@ -41,15 +42,14 @@ public:
     std::vector<std::pair<int, int>> arestas; // Lista de arestas
     std::vector<std::pair<int, int>> D0; // Conjunto de arestas específicas (se necessário)
     std::vector<std::tuple<int, int, int>> Y0; // Outra estrutura de dados para restrições específicas (se necessário)
-   
+    std::vector<std::vector<int>> subgrafos; // Armazena os subgrafos
+    std::vector<int> somaPesos; // Armazena a soma dos pesos em cada subgrafo
 
 private:
     // Função auxiliar para verificar se um conjunto de vértices está conectado
-    bool isConexo(const std::vector<std::pair<int, int>>& arestas, const std::vector<int>& vertices);
     bool isGrafoConexo(const std::vector<std::pair<int, int>>& arestas, const std::vector<int>& vertices);
-    bool existeArestaConectando(int v, const std::vector<int>& subgrafoVertices);
-    bool verificaRestricoesD0Y0(const std::vector<Subgraph>& subgrafos, const std::vector<std::pair<int, int>>& D0, const std::vector<std::tuple<int, int, int>>& Y0);
-
+    bool existeArestaConectando(int vertice, const std::vector<int>& subgrafo) const;
+    void atualizarSomaPesos();
     // Matriz de adjacência
     std::vector<std::vector<int>> adj;
 

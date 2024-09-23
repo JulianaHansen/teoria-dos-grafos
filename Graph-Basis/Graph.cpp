@@ -184,11 +184,10 @@ bool Graph::isGrafoConexo(const std::vector<std::pair<int, int>>& arestas, const
 }
 
 
-bool Graph::existeArestaConectando(int v, const std::vector<int>& subgrafoVertices) {
-    // Verifica se o vértice 'v' está conectado a qualquer vértice do subgrafo
+bool Graph::existeArestaConectando(int vertice, const std::vector<int>& subgrafo) const {
     for (const auto& aresta : arestas) {
-        if ((aresta.first == v && std::find(subgrafoVertices.begin(), subgrafoVertices.end(), aresta.second) != subgrafoVertices.end()) ||
-            (aresta.second == v && std::find(subgrafoVertices.begin(), subgrafoVertices.end(), aresta.first) != subgrafoVertices.end())) {
+        if ((aresta.first == vertice && std::find(subgrafo.begin(), subgrafo.end(), aresta.second) != subgrafo.end()) ||
+            (aresta.second == vertice && std::find(subgrafo.begin(), subgrafo.end(), aresta.first) != subgrafo.end())) {
             return true;
         }
     }
@@ -197,99 +196,141 @@ bool Graph::existeArestaConectando(int v, const std::vector<int>& subgrafoVertic
 
 
 
-int Graph::calcularSomaDosGaps(const std::vector<Subgraph>& subgrafos) {
-    int somaGaps = 0;
-    
-    // Itera sobre todos os pares de subgrafos
-    for (size_t i = 0; i < subgrafos.size(); ++i) {
-        for (size_t j = i + 1; j < subgrafos.size(); ++j) {
-            int gap = std::abs(subgrafos[i].pesoTotal - subgrafos[j].pesoTotal);
-            somaGaps += gap;
-        }
-    }
-    
-    return somaGaps;
-}
 
-int Graph::escolherSubgrafoMinimoGap(const std::vector<Subgraph>& subgrafos, int v) {
-    int subgrafoEscolhido = -1;
-    int menorAumentoGap = INT_MAX;
+void Graph::atualizarSomaPesos() {
+    somaPesos.clear();
+    somaPesos.resize(p, 0);
 
-    for (int i = 0; i < subgrafos.size(); ++i) {
-        if (existeArestaConectando(v, subgrafos[i].vertices)) {
-            int pesoAtual = subgrafos[i].pesoTotal;
-            int novoPeso = pesoAtual + pesosVertices[v];
-            std::vector<Subgraph> tempSubgrafos = subgrafos;
-            tempSubgrafos[i].pesoTotal = novoPeso;
-            int novoSomaGaps = calcularSomaDosGaps(tempSubgrafos);
-
-            int aumentoGap = novoSomaGaps - calcularSomaDosGaps(subgrafos);
-            if (aumentoGap < menorAumentoGap) {
-                menorAumentoGap = aumentoGap;
-                subgrafoEscolhido = i;
-            }
-        }
-    }
-
-    return subgrafoEscolhido;
-}
-
-void Graph::algoritmoGulosoBalanceadoMGGPP() {
-    std::vector<Subgraph> subgrafos(p);
-
-    // Inicializa os subgrafos com um vértice cada
     for (int i = 0; i < p; ++i) {
-        subgrafos[i].vertices.push_back(vertices[i]);
-        subgrafos[i].pesoTotal = pesosVertices[vertices[i]];
+        for (int vertice : subgrafos[i]) {
+            somaPesos[i] += pesosVertices[vertice];
+        }
+    }
+}
+
+int Graph::calcularSomaDosGaps() const {
+    if (subgrafos.empty()) {
+        std::cerr << "Os subgrafos ainda não foram gerados." << std::endl;
+        return -1; // Indicando erro, subgrafos não inicializados
     }
 
-    // Adiciona os vértices restantes
-    for (int i = p; i < vertices.size(); ++i) {
-        int v = vertices[i];
-        bool alocado = false;
+    // Encontrar o peso mínimo e máximo dos subgrafos
+    int minPeso = *std::min_element(somaPesos.begin(), somaPesos.end());
+    int maxPeso = *std::max_element(somaPesos.begin(), somaPesos.end());
 
-        // Tenta alocar o vértice em um subgrafo que mantenha a conectividade
-        for (int tentativa = 0; tentativa < p; ++tentativa) {
-            int subgrafoEscolhido = escolherSubgrafoMinimoGap(subgrafos, v);
-            if (subgrafoEscolhido != -1) {
-                Subgraph& sgEscolhido = subgrafos[subgrafoEscolhido];
+    // Calcular a soma dos gaps
+    int somaDosGaps = 0;
+    for (int peso : somaPesos) {
+        if (peso != minPeso && peso != maxPeso) {
+            somaDosGaps += std::abs(peso - minPeso);
+        }
+    }
 
-                // Verifica se o vértice está conectado a algum vértice do subgrafo
-                if (existeArestaConectando(v, sgEscolhido.vertices)) {
-                    // Adiciona o vértice ao subgrafo, já que ele mantém a conectividade
-                    sgEscolhido.vertices.push_back(v);
-                    sgEscolhido.pesoTotal += pesosVertices[v];
+    return somaDosGaps;
+}
 
-                    // Adiciona as arestas que conectam o novo vértice aos existentes
-                    for (const auto& aresta : arestas) {
-                        if (aresta.first == v || aresta.second == v) {
-                            sgEscolhido.arestas.push_back(aresta);
-                        }
-                    }
-                    alocado = true;
-                    break; // Vértice alocado com sucesso
-                }
+void Graph::algoritmoGulosoMGGPP() {
+    // Inicialização dos subgrafos e soma de pesos
+    subgrafos.resize(p);
+    somaPesos.resize(p, 0);
+
+    // Ordem dos vértices (por exemplo, por peso, você pode usar uma ordem diferente)
+    std::vector<int> ordemVertices = vertices;
+    std::sort(ordemVertices.begin(), ordemVertices.end(), [this](int a, int b) {
+        return pesosVertices[a] > pesosVertices[b];
+    });
+
+    // Atribuição gulosa
+    for (int vertice : ordemVertices) {
+        int subgrafo = escolherSubgrafo(vertice);
+        subgrafos[subgrafo].push_back(vertice);
+        somaPesos[subgrafo] += pesosVertices[vertice];
+    }
+
+    // Incorporar D0: garantir que as arestas em D0 estejam corretamente alocadas
+    for (const auto& aresta : D0) {
+    int u = aresta.first;
+    int v = aresta.second;
+
+    // Verifica se u e v estão em subgrafos diferentes
+    int subgrafoU = -1;
+    int subgrafoV = -1;
+    for (int i = 0; i < p; ++i) {
+        if (std::find(subgrafos[i].begin(), subgrafos[i].end(), u) != subgrafos[i].end()) {
+            subgrafoU = i;
+        }
+        if (std::find(subgrafos[i].begin(), subgrafos[i].end(), v) != subgrafos[i].end()) {
+            subgrafoV = i;
+        }
+    }
+
+    if (subgrafoU != subgrafoV) {
+        // Garantir que a aresta seja incluída no mesmo subgrafo
+        if (somaPesos[subgrafoU] <= somaPesos[subgrafoV]) {
+            // Move o vértice v para o subgrafo que contém u
+            subgrafos[subgrafoU].push_back(v);
+            somaPesos[subgrafoU] += pesosVertices[v];
+
+            // Remove v do subgrafo original
+            subgrafos[subgrafoV].erase(std::remove(subgrafos[subgrafoV].begin(), subgrafos[subgrafoV].end(), v), subgrafos[subgrafoV].end());
+            somaPesos[subgrafoV] -= pesosVertices[v];
+        } else {
+            // Move o vértice u para o subgrafo que contém v
+            subgrafos[subgrafoV].push_back(u);
+            somaPesos[subgrafoV] += pesosVertices[u];
+
+            // Remove u do subgrafo original
+            subgrafos[subgrafoU].erase(std::remove(subgrafos[subgrafoU].begin(), subgrafos[subgrafoU].end(), u), subgrafos[subgrafoU].end());
+            somaPesos[subgrafoU] -= pesosVertices[u];
+        }
+    }
+}
+
+    // Incorporar Y0: verificar e ajustar restrições específicas
+    for (const auto& tupla : Y0) {
+        int a, b, c;
+        std::tie(a, b, c) = tupla;
+        // Lógica para aplicar as restrições de Y0 aos subgrafos
+        // (Exemplo: garantir que a restrição seja respeitada, ajustar partição se necessário)
+    }
+    atualizarSomaPesos();
+}
+
+int Graph::escolherSubgrafo(int vertice) {
+    // Inicialmente, escolhe o subgrafo com a menor soma de pesos
+    int melhorSubgrafo = 0;
+    int menorPeso = std::numeric_limits<int>::max();
+
+    for (int i = 0; i < p; ++i) {
+        bool podeAdicionar = true;
+
+        // Verificar se adicionar o vértice ao subgrafo respeita as restrições de Y0
+        for (const auto& tupla : Y0) {
+            int a, b, c;
+            std::tie(a, b, c) = tupla;
+            if (std::find(subgrafos[i].begin(), subgrafos[i].end(), a) != subgrafos[i].end() &&
+                std::find(subgrafos[i].begin(), subgrafos[i].end(), b) != subgrafos[i].end() &&
+                existeArestaConectando(vertice, subgrafos[i])) {
+                podeAdicionar = false;
+                break;
             }
         }
 
-        // Se não conseguiu alocar, algo está errado
-        if (!alocado) {
-            std::cerr << "Erro: não foi possível adicionar o vértice " << v << " mantendo o subgrafo conexo!" << std::endl;
-            return;
+        if (podeAdicionar && somaPesos[i] < menorPeso) {
+            menorPeso = somaPesos[i];
+            melhorSubgrafo = i;
         }
     }
 
-    // Exibe as partições resultantes
-    for (int i = 0; i < p; i++) {
-        std::cout << "Subgrafo " << i + 1 << ": Peso total = " << subgrafos[i].pesoTotal << std::endl;
-        std::cout << "Vértices: ";
-        for (int v : subgrafos[i].vertices) {
-            std::cout << v << " ";
-        }
-        std::cout << std::endl;
-    }
+    return melhorSubgrafo;
+}
 
-    // Calcula e exibe a soma dos gaps
-    int somaGaps = calcularSomaDosGaps(subgrafos);
-    std::cout << "Soma dos gaps dos subgrafos: " << somaGaps << std::endl;
+void Graph::imprimirSubgrafos() const {
+    for (int i = 0; i < subgrafos.size(); ++i) {
+        std::cout << "Subgrafo " << i << " (Peso Total: " << somaPesos[i] << "):\n";
+        for (int vertice : subgrafos[i]) {
+            std::cout << vertice << " ";
+        }
+        std::cout << "\n";
+    }
 }
