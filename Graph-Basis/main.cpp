@@ -18,6 +18,9 @@ int exec(Graph g, int alg, int n) {
             for (int i = 0; i < n; i++){
                 g.algoritmoGulosoAdaptativoMGGPP();
                 int novaSomaDosGaps = g.calcularSomaDosGaps();
+                if (novaSomaDosGaps == -1) {
+                    return -1;
+                }
                 if (somaDosGaps == -1 || somaDosGaps > novaSomaDosGaps) {
                     somaDosGaps = novaSomaDosGaps;
                 }
@@ -28,6 +31,9 @@ int exec(Graph g, int alg, int n) {
             for (int i = 0; i < n; i++){
                 g.algoritmoGulosoAdaptativoReativoMGGPP();
                 int novaSomaDosGaps = g.calcularSomaDosGaps();
+                if (novaSomaDosGaps == -1) {
+                    return -1;
+                }
                 if (somaDosGaps == -1 || somaDosGaps > novaSomaDosGaps) {
                     somaDosGaps = novaSomaDosGaps;
                 }
