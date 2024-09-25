@@ -296,10 +296,10 @@ void Graph::algoritmoGulosoMGGPP() {
     atualizarSomaPesos();
 }
 
-void Graph::algoritmoGulosoAdaptativoMGGPP() {
+void Graph::algoritmoGulosoAdaptativoMGGPP(int seed) {
 }
 
-void Graph::algoritmoGulosoAdaptativoReativoMGGPP() {
+void Graph::algoritmoGulosoAdaptativoReativoMGGPP(int seed) {
 }
 
 int Graph::escolherSubgrafo(int vertice) {

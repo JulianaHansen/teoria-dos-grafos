@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 
-int exec(Graph g, int alg, int n) {
+int exec(Graph g, int alg, int n, int seed) {
 
     int somaDosGaps = -1;
 
@@ -16,7 +16,7 @@ int exec(Graph g, int alg, int n) {
         // GULOSO RANDOMIZADO ADAPTATIVO
         case 2:
             for (int i = 0; i < n; i++){
-                g.algoritmoGulosoAdaptativoMGGPP();
+                g.algoritmoGulosoAdaptativoMGGPP(seed);
                 int novaSomaDosGaps = g.calcularSomaDosGaps();
                 if (novaSomaDosGaps == -1) {
                     return -1;
@@ -29,7 +29,7 @@ int exec(Graph g, int alg, int n) {
         // GULOSO RANDOMIZADO ADAPTATIVO REATIVO
         case 3:
             for (int i = 0; i < n; i++){
-                g.algoritmoGulosoAdaptativoReativoMGGPP();
+                g.algoritmoGulosoAdaptativoReativoMGGPP(seed);
                 int novaSomaDosGaps = g.calcularSomaDosGaps();
                 if (novaSomaDosGaps == -1) {
                     return -1;
@@ -69,12 +69,17 @@ int main(int argc, char *argv[]) {
         }
 
         int n = 1;
+        int seed = 1;
 
         if (argc > 3) {
             n = std::stoi(argv[3]);
         }
 
-       int result = exec(g, alg, n);
+        if (argc > 4) {
+            seed = std::stoi(argv[4]);
+        }
+
+       int result = exec(g, alg, n, seed);
 
        if (result != 0) {
         return -1;
