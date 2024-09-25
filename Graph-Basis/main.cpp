@@ -3,6 +3,50 @@
 #include <iostream>
 #include <vector>
 
+int exec(Graph g, int alg, int n) {
+
+    int somaDosGaps = -1;
+
+    switch (alg){
+        // GULOSO
+        case 1:
+            g.algoritmoGulosoMGGPP();
+            somaDosGaps = g.calcularSomaDosGaps();
+        break;
+        // GULOSO RANDOMIZADO ADAPTATIVO
+        case 2:
+            for (int i = 0; i < n; i++){
+                g.algoritmoGulosoAdaptativoMGGPP();
+                int novaSomaDosGaps = g.calcularSomaDosGaps();
+                if (somaDosGaps == -1 || somaDosGaps > novaSomaDosGaps) {
+                    somaDosGaps = novaSomaDosGaps;
+                }
+            }
+        break;
+        // GULOSO RANDOMIZADO ADAPTATIVO REATIVO
+        case 3:
+            for (int i = 0; i < n; i++){
+                g.algoritmoGulosoReativoMGGPP();
+                int novaSomaDosGaps = g.calcularSomaDosGaps();
+                if (somaDosGaps == -1 || somaDosGaps > novaSomaDosGaps) {
+                    somaDosGaps = novaSomaDosGaps;
+                }
+            }
+        break;
+        // NENHUMA ALTERNATIVA SELECIONADA
+        default:
+            std::cout << "Nenhum algoritimo selecionado" << std::endl;
+            return -1;
+        }
+
+        if (somaDosGaps != -1) {
+            g.imprimirSubgrafos();
+            std::cout << "Soma dos gaps: " << somaDosGaps << std::endl;
+        }
+
+    return 0;
+}
+
 int main(int argc, char *argv[]) {
 
     if (argc < 3){
@@ -18,29 +62,17 @@ int main(int argc, char *argv[]) {
             return -1;
         }
 
-        switch (alg){
-            // GULOSO
-            case 1:
-                // Executa o algoritmo guloso para resolver o MGGPP
-                g.algoritmoGulosoMGGPP();
-                g.imprimirSubgrafos();
-            break;
-            // GULOSO RANDOMIZADO ADAPTATIVO
-            case 2:
-            break;
-            // GULOSO RANDOMIZADO ADAPTATIVO REATIVO
-            case 3:
-            break;
-            // NENHUMA ALTERNATIVA SELECIONADA
-            default:
-                std::cout << "Nenhum algoritimo selecionado" << std::endl;
-                return -1;
+        int n = 1;
+
+        if (argc > 3) {
+            n = std::stoi(argv[3]);
         }
-        
-        int somaDosGaps = g.calcularSomaDosGaps();
-        if (somaDosGaps != -1) {
-            std::cout << "Soma dos gaps: " << somaDosGaps << std::endl;
-        }
+
+       int result = exec(g, alg, n);
+
+       if (result != 0) {
+        return -1;
+       }
     }
     return 0;
 }
