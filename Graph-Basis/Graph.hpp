@@ -28,6 +28,10 @@ public:
     // Função que implementa o algoritmo guloso para o MGGPP
     void algoritmoGulosoMGGPP();
 
+    void algoritmoGulosoAdaptativoMGGPP();
+
+    void algoritmoGulosoAdaptativoReativoMGGPP();
+
     int calcularSomaDosGaps() const;
 
     int escolherSubgrafo(int v);

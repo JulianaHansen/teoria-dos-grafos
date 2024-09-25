@@ -26,7 +26,7 @@ int exec(Graph g, int alg, int n) {
         // GULOSO RANDOMIZADO ADAPTATIVO REATIVO
         case 3:
             for (int i = 0; i < n; i++){
-                g.algoritmoGulosoReativoMGGPP();
+                g.algoritmoGulosoAdaptativoReativoMGGPP();
                 int novaSomaDosGaps = g.calcularSomaDosGaps();
                 if (somaDosGaps == -1 || somaDosGaps > novaSomaDosGaps) {
                     somaDosGaps = novaSomaDosGaps;

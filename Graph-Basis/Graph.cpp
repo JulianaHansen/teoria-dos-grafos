@@ -296,6 +296,12 @@ void Graph::algoritmoGulosoMGGPP() {
     atualizarSomaPesos();
 }
 
+void Graph::algoritmoGulosoAdaptativoMGGPP() {
+}
+
+void Graph::algoritmoGulosoAdaptativoReativoMGGPP() {
+}
+
 int Graph::escolherSubgrafo(int vertice) {
     // Inicialmente, escolhe o subgrafo com a menor soma de pesos
     int melhorSubgrafo = 0;
