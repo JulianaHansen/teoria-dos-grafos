@@ -1,17 +1,40 @@
-#ifndef GRAFO_BASICO_NODE_H
-#define GRAFO_BASICO_NODE_H
-
+#ifndef NODE_H_INCLUDED
+#define NODE_H_INCLUDED
 #include "Edge.hpp"
-#include "defines.hpp"
+#include <list>
 
-struct Node
+using namespace std;
+
+class Node
 {
-    size_t _number_of_edges;
-    size_t _id;
-    float  _weight;
-    Edge  *_first_edge;
-    Node  *_next_node;
-    Node  *_previous_node;
+private:
+    Edge *firstEdge;
+    Edge *lastEdge;
+    int id;
+    float weight;
+    Node *nextNode;
+
+public:
+
+    Node(int id);
+
+    ~Node();
+
+    Edge *getFirstEdge();
+    Edge *getLastEdge();
+    int getId() const;
+    float getWeight();
+    Node *getNextNode();
+
+    void setNextNode(Node *node);
+    void setWeight(float weight);
+
+    void insertEdge(int sourceId, int targetId);
+    int removeEdge(int id, bool directed, Node *targetNode);
+    void removeAllEdges();
+
+    Edge *getEdgeBetween(int targetId);
+    bool hasEdgeBetween(int targetId);
 };
 
-#endif  //GRAFO_BASICO_NODE_H
+#endif // NODE_H_INCLUDED

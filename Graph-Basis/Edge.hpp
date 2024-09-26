@@ -1,13 +1,26 @@
-#ifndef GRAFO_BASICO_EDGE_H
-#define GRAFO_BASICO_EDGE_H
+#ifndef EDGE_H_INCLUDED
+#define EDGE_H_INCLUDED
 
-#include "defines.hpp"
+using namespace std;
 
-struct Edge
+class Edge
 {
-    Edge  *_next_edge;
-    float  _weight;
-    size_t _target_id;
+private:
+    int sourceId;
+    int targetId;
+    Edge *nextEdge;
+
+
+public:
+    Edge(int sourceId, int targetId);
+
+    ~Edge();
+
+    int getSourceId();
+    int getTargetId();
+    Edge *getNextEdge();
+
+    void setNextEdge(Edge *edge);
 };
 
-#endif /* GRAFO_BASICO_EDGE_H */
+#endif // EDGE_H_INCLUDED
