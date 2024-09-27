@@ -302,14 +302,19 @@ void Graph::sortNodes(Node **nodeList, int size)
 }
 
 void Graph::greedy() {
- 
+    Partition p;
+
+    p.insertNode(1, 1);
+    p.insertNode(2, 2);
+
+    p.displayNodes();
 }
 
-void Graph::greedyAR(int seed) {
-    std::srand(seed); //números aleatórios
+void Graph::greedyA(int seed) {
+    srand(seed); //números aleatórios
 
     int totalNodes = this->getOrder();
-    std::vector<int> nodeIds;
+    vector<int> nodeIds;
 
     // faz lista de IDs dos nós
     for (int i = 0; i < totalNodes; ++i) {
@@ -317,9 +322,9 @@ void Graph::greedyAR(int seed) {
     }
 
     // Cria um gerador aleatório
-    std::default_random_engine generator(seed);
+    default_random_engine generator(seed);
     // embaralha lista nós
-    std::shuffle(nodeIds.begin(), nodeIds.end(), generator);
+    shuffle(nodeIds.begin(), nodeIds.end(), generator);
 
     // Inicializa as partições
     partitions.resize(p); //p é o num de partiçoes
@@ -335,14 +340,13 @@ void Graph::greedyAR(int seed) {
             float nodeValue = node->getWeight();
 
             // Adiciona o nó à partição
-            partitions[partitionIndex].addNode(nodeIds[i], nodeValue);
+            partitions[partitionIndex].insertNode(nodeIds[i], nodeValue);
         }
     }
 
-    // Cálculo da soma dos gaps
     int totalGap = 0;
-    for (const auto& partition : partitions) {
-        totalGap += partition.getGap(); // Soma os gaps de cada partição
+    for (int i = 0; i < partitions.size(); i++){
+        totalGap += partitions[i].getGap();
     }
 
     std::cout << "Soma total dos gaps: " << totalGap << std::endl;
