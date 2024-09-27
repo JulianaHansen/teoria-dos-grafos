@@ -11,7 +11,13 @@ using namespace std;
 #include <cfloat>
 #include <fstream>
 #include <list>
+#include <random> 
+#include <algorithm>
+#ifdef _WIN32
+#include <windows.h>
+#else
 #include <unistd.h>
+#endif
 #include <sstream>
 
 using namespace std;
@@ -299,7 +305,53 @@ void Graph::greedy() {
  
 }
 
-void Graph::greedyA(int seed) {
+void Graph::greedyAR(int seed) {
+    std::srand(seed); //números aleatórios
+
+    int totalNodes = this->getOrder();
+    std::vector<int> nodeIds;
+
+    // faz lista de IDs dos nós
+    for (int i = 0; i < totalNodes; ++i) {
+        nodeIds.push_back(i); 
+    }
+
+    // Cria um gerador aleatório
+    std::default_random_engine generator(seed);
+    // embaralha lista nós
+    std::shuffle(nodeIds.begin(), nodeIds.end(), generator);
+
+    // Inicializa as partições
+    partitions.resize(p); //p é o num de partiçoes
+
+    // faz as partiçoes
+    for (int i = 0; i < totalNodes; ++i) {
+        int partitionIndex = rand() % p; // Escolhe uma partição aleatoriamente
+
+        // Obtém o nó pelo ID
+        Node* node = this->getNodeById(nodeIds[i]); // Método que retorna o nó pelo ID
+        if (node) {
+            // Usa o método getWeight() para obter o valor associado ao nó
+            float nodeValue = node->getWeight();
+
+            // Adiciona o nó à partição
+            partitions[partitionIndex].addNode(nodeIds[i], nodeValue);
+        }
+    }
+
+    // Cálculo da soma dos gaps
+    int totalGap = 0;
+    for (const auto& partition : partitions) {
+        totalGap += partition.getGap(); // Soma os gaps de cada partição
+    }
+
+    std::cout << "Soma total dos gaps: " << totalGap << std::endl;
+
+    // exibir as partições
+    for (int i = 0; i < p; ++i) {
+        std::cout << "Partição " << i + 1 << ": ";
+        partitions[i].displayNodes(); // Exibe os nós e valores mínimo e máximo
+    }
 }
 
 void Graph::greedyAR(int seed) {

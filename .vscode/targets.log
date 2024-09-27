@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Mon Sep 23 15:24:05 2024
+# Make data base, printed on Fri Sep 27 11:17:21 2024
 
 # Variables
 
@@ -39,7 +39,7 @@ MAKE_COMMAND := C:/ProgramData/chocolatey/lib/make/tools/install/bin/make.exe
 # automatic
 @D = $(patsubst %/,%,$(patsubst %\,%,$(dir $@)))
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_4360_FUMGVPZKIGOPRTTH
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_7512_HPPHOOCDDCENYQHN
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # default
@@ -87,7 +87,7 @@ MAKEFILE_LIST :=
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 4360
+VSCODE_PID = 7512
 # automatic
 ?D = $(patsubst %/,%,$(patsubst %\,%,$(dir $?)))
 # automatic
@@ -146,6 +146,8 @@ WORKON_HOME = C:\Users\55249\Envs
 PROGRAMW6432 = C:\Program Files
 # environment
 PATHEXT = .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.PY;.PYW
+# environment
+EFC_15484 = 1
 # automatic
 +F = $(notdir $+)
 # environment
@@ -161,8 +163,7 @@ OS = Windows_NT
 # default
 MAKE_VERSION := 4.4.1
 # environment
-PROGRAMFILES(X86) = C:\Program Files (x8 
-6)
+PROGRAMFILES(X86) = C:\Program Files (x86)
 # environment
 USERDOMAIN_ROAMINGPROFILE = DESKTOP-0U9BVHJ
 # environment
@@ -195,8 +196,6 @@ SUFFIXES :=
 ALLUSERSPROFILE = C:\ProgramData
 # environment
 SESSIONNAME = Console
-# environment
-EFC_32668 = 1
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs notintermediate shell-export archives jobserver output-sync load dospaths
 # environment
@@ -279,6 +278,6 @@ GNUmakefile:
 # strcache performance: lookups = 16 / hit rate = 18%
 # hash-table stats:
 # Load=13/8192=0%, Rehash=0, Collisions=0/16=0%
-# Finished Make data base on Mon Sep 23 15:24:05 2024
+# Finished Make data base on Fri Sep 27 11:17:21 2024
 
  

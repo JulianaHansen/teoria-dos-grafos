@@ -2,6 +2,7 @@
 #define GRAPH_H_INCLUDED
 #include <iostream>
 #include "Node.hpp"
+#include "Particion.hpp"
 
 using namespace std;
 
@@ -14,6 +15,7 @@ private:
     int numberEdges;
     Node *firstNode;
     Node *lastNode;
+    std::vector<Particion> partitions; // Armazenar as partições
 
 public:
     // Construtor
