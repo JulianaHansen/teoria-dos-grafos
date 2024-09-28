@@ -227,71 +227,26 @@ bool Graph::depthFirstSearchAux(Node *currentNode, int targetId, bool visitedLis
     return false;
 }
 
-bool Graph::isConnected()
+void Graph::sortNodes(Node ** nodeList)
 {
-    int numberOfNodes;
-    int *nodeComponentList;
-    int component = 0;
-    this->createAuxNodeComponentArray(&numberOfNodes, &nodeComponentList);
 
-    for (int i = 0; i < numberOfNodes; i++)
-    {
-        if (nodeComponentList[i] == -1)
-        {
-            component += 1;
-            if (component != 1)
-            {
-                return false;
-            }
-            marksNodeComponent(i, component, &nodeComponentList);
-        }
+    int counter = 0;
+    Node *node = firstNode;
+    while (node != nullptr) {
+        nodeList[counter] = node;
+        node = node->getNextNode();
+        counter++;
     }
 
-    delete[] nodeComponentList;
-    return true;
-}
-
-void Graph::marksNodeComponent(int idNode, int component, int **nodeComponentList)
-{
-    (*nodeComponentList)[idNode] = component;
-
-    Edge *initialEdge = this->getNodeById(idNode)->getFirstEdge();
-    while (initialEdge != nullptr)
+    float current = 0;
+    float next = 0;
+    for (int i = 0; i < order; i++)
     {
-        int idAdjacentNode = initialEdge->getTargetId();
-        if ((*nodeComponentList)[idAdjacentNode] == -1)
+        for (int j = 0; j < order - i - 1; j++)
         {
-            marksNodeComponent(idAdjacentNode, component, nodeComponentList);
-        }
-        initialEdge = initialEdge->getNextEdge();
-    }
-}
-
-void Graph::createAuxNodeComponentArray(int *size, int **componentList)
-{
-    *componentList = new int[this->order];
-    Node *nextNode = this->firstNode;
-    int i = 0;
-    while (nextNode != nullptr)
-    {
-        (*componentList)[i] = -1;
-        nextNode = nextNode->getNextNode();
-        i++;
-    }
-    *size = i;
-}
-
-void Graph::sortNodes(Node **nodeList, int size)
-{
-    float currentHeuristic = 0;
-    float nextHeuristic = 0;
-    for (int i = 0; i < size; i++)
-    {
-        for (int j = 0; j < size - i - 1; j++)
-        {
-            currentHeuristic = nodeList[j]->getWeight();
-            nextHeuristic = nodeList[j + 1]->getWeight();
-            if (currentHeuristic > nextHeuristic)
+            current = nodeList[j]->getWeight();
+            next = nodeList[j + 1]->getWeight();
+            if (current > next)
             {
                 Node *auxNode = nodeList[j];
                 nodeList[j] = nodeList[j + 1];
@@ -302,12 +257,29 @@ void Graph::sortNodes(Node **nodeList, int size)
 }
 
 void Graph::greedy() {
-    Partition p;
 
-    p.insertNode(1, 1);
-    p.insertNode(2, 2);
+    Partition **partitions = new Partition*[this->p];
+    for (int i = 0; i < this->p; ++i) {
+        partitions[i] = new Partition(); 
+    }
 
-    p.displayNodes();
+    Node ** nodeList = new Node*[this->order]; 
+    sortNodes(nodeList);
+
+    for (int i = 0; i < order; ++i){
+        int pos = (i/this->p);
+        Node* node = nodeList[i];
+
+        partitions[pos]->insertNode(node->getId(), node->getWeight());
+    }
+
+    int totalGaps = 0;
+    for (int i = 0; i < this->p; ++i){
+        cout << i << ":";
+        partitions[i]->displayNodes();
+        totalGaps += partitions[i]->getGap();
+    }
+    cout << "Result:" << totalGaps << "\n";
 }
 
 void Graph::greedyA(int seed) {

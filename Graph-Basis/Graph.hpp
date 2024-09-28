@@ -15,7 +15,7 @@ private:
     int numberEdges;
     Node *firstNode;
     Node *lastNode;
-    std::vector<Partition> partitions; // Armazenar as partições
+    vector<Partition> partitions; // Armazenar as partições
 
 public:
     // Construtor
@@ -41,8 +41,7 @@ public:
     bool searchNode(int id);
     Node *getNodeById(int id);
     bool depthFirstSearch(int initialId, int targetId);
-    bool isConnected();
-    void sortNodes(Node **nodeList, int size);
+    void sortNodes(Node** nodeList);
 
     void greedy();
     void greedyA(int seed);
@@ -50,8 +49,6 @@ public:
 
 private:
     bool depthFirstSearchAux(Node *currentNode, int targetId, bool visitedList[]);
-    void marksNodeComponent(int idNode, int component, int **NodeComponentList);
-    void createAuxNodeComponentArray(int *size, int **componentList);
 };
 
 #endif // GRAPH_H_INCLUDED

@@ -20,6 +20,7 @@ public:
     Node *insertNode(int id, float weight);
 
     int getGap();
+    int getNumberOfNodes();
 
     void displayNodes() const;
 };

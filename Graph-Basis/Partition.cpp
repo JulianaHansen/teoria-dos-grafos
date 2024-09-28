@@ -50,13 +50,16 @@ int Partition::getGap()
 {
     return this->maxValue - this->minValue;
 }
+int Partition::getNumberOfNodes()
+{
+    return this->numberOfNodes;
+}
 
 void Partition::displayNodes() const {
-    cout << "Nós na partição: ";
     Node* node = firstNode;
     while (node != nullptr){
         cout << node->getId() << " ";
         node = node->getNextNode();
     }
-    cout << "\nMínimo: " << minValue << ", Máximo: " << maxValue << std::endl;
+    cout << "\nMínimo: " << minValue << ", Máximo: " << maxValue << "\n" << std::endl;
 }
