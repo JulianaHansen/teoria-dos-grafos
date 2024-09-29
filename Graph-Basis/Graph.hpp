@@ -43,9 +43,8 @@ public:
     bool depthFirstSearch(int initialId, int targetId);
     void sortNodes(Node** nodeList);
 
-    void greedy();
-    void greedyA(int seed);
-    void greedyAR(int seed);
+    int guloso(float alfa);
+
 
 private:
     bool depthFirstSearchAux(Node *currentNode, int targetId, bool visitedList[]);

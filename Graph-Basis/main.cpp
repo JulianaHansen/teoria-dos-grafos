@@ -14,18 +14,18 @@ int exec(Graph g, int alg, int n, int seed) {
     switch (alg){
         // GULOSO
         case 1:
-            g.greedy();
+            g.guloso(0);
         break;
         // GULOSO RANDOMIZADO ADAPTATIVO
         case 2:
             for (int i = 0; i < n; i++){
-                g.greedyA(seed);
+                //g.greedyA(seed);
             }
         break;
         // GULOSO RANDOMIZADO ADAPTATIVO REATIVO
         case 3:
             for (int i = 0; i < n; i++){
-                g.greedyAR(seed);
+                //g.greedyAR(seed);
             }
         break;
         // NENHUMA ALTERNATIVA SELECIONADA

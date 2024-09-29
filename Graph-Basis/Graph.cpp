@@ -256,79 +256,290 @@ void Graph::sortNodes(Node ** nodeList)
     }
 }
 
-void Graph::greedy() {
+struct Candidato
+{
+    int p;
+    int source_id;
+    int target_id;
+    int aumento_gap;
 
-    Partition **partitions = new Partition*[this->p];
-    for (int i = 0; i < this->p; ++i) {
-        partitions[i] = new Partition(); 
+    friend bool operator<(Candidato c1, Candidato c2){
+        return c1.aumento_gap < c2.aumento_gap;
     }
 
-    Node ** nodeList = new Node*[this->order]; 
-    sortNodes(nodeList);
-
-    for (int i = 0; i < order; ++i){
-        int pos = (i/this->p);
-        Node* node = nodeList[i];
-
-        partitions[pos]->insertNode(node->getId(), node->getWeight());
+    friend bool operator>(Candidato c1, Candidato c2){
+        return c1.aumento_gap > c2.aumento_gap;
     }
 
-    int totalGaps = 0;
-    for (int i = 0; i < this->p; ++i){
-        cout << i << ":";
-        partitions[i]->displayNodes();
-        totalGaps += partitions[i]->getGap();
+    friend bool operator==(Candidato c1, Candidato c2){
+        return c1.target_id == c2.target_id;
     }
-    cout << "Result:" << totalGaps << "\n";
+
+};
+
+typedef struct{
+    vector<int> vertices_ids;
+    int maior;
+    int menor;
+}Solucao;
+
+struct AuxAresta{
+    int source;
+    int target;
+    int gap;
+
+    friend bool operator<(AuxAresta a1, AuxAresta a2){
+        return a1.gap < a2.gap;
+    }
+
+    friend bool operator>(AuxAresta a1, AuxAresta a2){
+        return a1.gap > a2.gap;
+    }
+};
+
+bool checkDisponivel(vector<int> v, int x, int y){
+    int achado =0;
+    for(int i = 0; i< v.size(); i++){
+        if(v[i] == x || v[i] == y){
+            achado++;
+        }
+        if(achado == 2){
+            return true;
+        }
+    }
+    return false;
 }
 
-void Graph::greedyA(int seed) {
-    srand(seed); //números aleatórios
+void removePorValor(vector<int> &v, int value){
+    int i;
+    for(i=0; i<v.size();i++){
+        if(v[i] == value){
+            break;
+        }
+    }
+    v.erase(v.begin() + 1);
+}
 
-    int totalNodes = this->getOrder();
-    vector<int> nodeIds;
+void init_genrand(unsigned long s)
+{   
+    int N = 624;
+    unsigned long mt[N];
+    int mti = N + 1;	
+	mt[0] = s & 0xffffffffUL;
+	for (mti = 1; mti < N; mti++)
+	{
+		mt[mti] = (1812433253UL * (mt[mti - 1] ^ (mt[mti - 1] >> 30)) + mti);
+		/* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */
+		/* In the previous versions, MSBs of the seed affect   */
+		/* only MSBs of the array mt[].                        */
+		/* 2002/01/09 modified by Makoto Matsumoto             */
+		mt[mti] &= 0xffffffffUL;
+		/* for >32 bit machines */
+	}
+}
 
-    // faz lista de IDs dos nós
-    for (int i = 0; i < totalNodes; ++i) {
-        nodeIds.push_back(i); 
+unsigned int intRandom(const unsigned int maxValue)
+{
+	#ifdef MTWISTER
+		return ((double)genrand_real2()) * ((double)maxValue);
+	#else
+		static unsigned int res;
+		static unsigned int rgen;
+		static double factor;
+		rgen = rand();
+		factor = ((double)rgen / (double)INT_MAX);
+
+		res = (unsigned int)(maxValue * factor);
+		if (res == maxValue)
+			res--;
+		return res;
+	#endif
+}
+
+int Graph::guloso(float alfa){
+    
+    vector<int> disponivel;
+    for(int i=1; i<= order; i++){
+        disponivel.push_back(i);
     }
 
-    // Cria um gerador aleatório
-    default_random_engine generator(seed);
-    // embaralha lista nós
-    shuffle(nodeIds.begin(), nodeIds.end(), generator);
+    Solucao solucao[p];
 
-    // Inicializa as partições
-    partitions.resize(p); //p é o num de partiçoes
+    list<Candidato> candidatos;
 
-    // faz as partiçoes
-    for (int i = 0; i < totalNodes; ++i) {
-        int partitionIndex = rand() % p; // Escolhe uma partição aleatoriamente
+    list<AuxAresta> todas_arestas;
 
-        // Obtém o nó pelo ID
-        Node* node = this->getNodeById(nodeIds[i]); // Método que retorna o nó pelo ID
-        if (node) {
-            // Usa o método getWeight() para obter o valor associado ao nó
-            float nodeValue = node->getWeight();
+    Node* node = firstNode;
 
-            // Adiciona o nó à partição
-            partitions[partitionIndex].insertNode(nodeIds[i], nodeValue);
+    while(node != nullptr){
+        Node* n = node->getNextNode();
+        Edge* edge = node->getFirstEdge();
+
+        while(edge != nullptr){
+            Edge *e = edge->getNextEdge();
+            AuxAresta aux;
+            aux.source = n->getId();
+            aux.target = e->getTargetId();
+            aux.gap =  abs(n->getWeight() - getNodeById(e->getTargetId())->getWeight());
+            todas_arestas.push_back(aux);
+            edge = edge->getNextEdge();
+        }
+        node = node->getNextNode();
+    }
+    todas_arestas.sort();
+
+    int adicionado = 0;
+
+    list<AuxAresta>::iterator it;
+
+    for(it= todas_arestas.begin(); it != todas_arestas.end(); ++it){
+        if(adicionado < p){
+            if(checkDisponivel(disponivel, it->source, it->target)){
+                solucao[adicionado].vertices_ids.push_back(it->source);
+                solucao[adicionado].vertices_ids.push_back(it->target);
+                if(getNodeById(it->source)->getWeight() > getNodeById(it->target)->getWeight()){
+                    solucao[adicionado].maior = getNodeById(it->source)->getWeight();
+                    solucao[adicionado].menor = getNodeById(it->target)->getWeight();
+                }else{
+                    solucao[adicionado].menor = getNodeById(it->source)->getWeight();
+                    solucao[adicionado].maior = getNodeById(it->target)->getWeight();
+                }
+                removePorValor(disponivel, it->source);
+                removePorValor(disponivel, it->target);
+                adicionado++;
+            }
         }
     }
 
-    int totalGap = 0;
-    for (int i = 0; i < partitions.size(); i++){
-        totalGap += partitions[i].getGap();
+    for(int i =0; i< p; i++){
+        for(int j = 0; j< solucao[i].vertices_ids.size(); j++){
+            int atual_node_id = solucao[i].vertices_ids[j];
+            Edge *aresta = getNodeById(atual_node_id)->getFirstEdge();
+            while(aresta != nullptr){
+                Edge *e = aresta->getNextEdge();
+
+                bool id_disponivel = false;
+                for(int i = 0; i< disponivel.size(); i++){
+                    if(disponivel[i] == e->getTargetId()){
+                        id_disponivel = true;
+                    }
+                }
+
+                if(id_disponivel){
+                    Candidato c;
+                    c.p = i;
+                    c.source_id = atual_node_id;
+                    c.target_id = e->getTargetId();
+
+                    int peso = getNodeById(e->getTargetId())->getWeight();
+                    int menor_peso = solucao[i].menor;
+                    int maior_peso = solucao[i].maior;
+
+                    if(peso < menor_peso){
+                        c.aumento_gap = abs(peso- menor_peso);
+                    }else if(peso > maior_peso){
+                        c.aumento_gap = abs(peso - maior_peso);
+                    }else{
+                        c.aumento_gap = 0;
+                    }
+
+                    candidatos.push_back(c);
+
+                }
+                aresta = aresta->getNextEdge();
+            }
+        }
     }
 
-    std::cout << "Soma total dos gaps: " << totalGap << std::endl;
+    int n = 1;
 
-    // exibir as partições
-    for (int i = 0; i < p; ++i) {
-        std::cout << "Partição " << i + 1 << ": ";
-        partitions[i].displayNodes(); // Exibe os nós e valores mínimo e máximo
+    while(disponivel.size() > 0){
+        candidatos.sort();
+
+        int candidatos_index;
+
+        if(alfa != 0){
+            init_genrand(time(0));
+            int size_possibilidades = candidatos.size() * alfa;
+            candidatos_index = intRandom(size_possibilidades);
+        }else{
+            candidatos_index = 0;
+        }
+
+        int node_escolhido;
+        int p_escolhido;
+
+        if(alfa!= 0){
+            list<Candidato>::iterator it;
+            int n =0;
+            for(it = candidatos.begin(); it!= candidatos.end(); ++it){
+                if(n == candidatos_index){
+                    node_escolhido = it->target_id;
+                    p_escolhido = it->p;
+                    break;
+                }
+                n++;
+            }
+        }
+        else{
+            node_escolhido = candidatos.front().target_id;
+            p_escolhido = candidatos.front().p;
+        }
+
+        solucao[p_escolhido].vertices_ids.push_back(node_escolhido);
+        if(getNodeById(node_escolhido)->getWeight() > solucao[p_escolhido].maior){
+            solucao[p_escolhido].maior = getNodeById(node_escolhido)->getWeight();
+        }else if(getNodeById(node_escolhido)->getWeight() < solucao[p_escolhido].menor){
+            solucao[p_escolhido].menor = getNodeById(node_escolhido)->getWeight();
+        }
+
+        removePorValor(disponivel, node_escolhido);
+
+        Candidato aux;
+        aux.target_id = node_escolhido;
+        candidatos.remove(aux);
+
+        Edge* aresta = getNodeById(node_escolhido)->getFirstEdge();
+        while(aresta != nullptr){
+            Edge* e = aresta->getNextEdge();
+
+            bool id_disponivel = false;
+            for(int i =0; i< disponivel.size(); i++){
+                if(disponivel[i] == e->getTargetId()){
+                    id_disponivel = true;
+                }
+            }
+
+            if(id_disponivel){
+                Candidato c;
+                c.p = p_escolhido;
+                c.source_id = node_escolhido;
+                c.target_id = e->getTargetId();
+
+                int peso = getNodeById(e->getTargetId())->getWeight();
+                int menor_peso = solucao[p_escolhido].menor;
+                int maior_peso = solucao[p_escolhido].maior;
+
+                if(peso < menor_peso){
+                    c.aumento_gap = abs(peso - menor_peso);
+                }else if(peso > maior_peso){
+                    c.aumento_gap = abs(peso - maior_peso);
+                }else{
+                    c.aumento_gap = 0;
+                }
+                candidatos.push_back(c);
+
+            }
+
+        }
+        n++;
     }
-}
 
-void Graph::greedyAR(int seed) {
+    int custo = 0;
+    for(int i=0; i< p;i++){
+        custo += solucao[i].maior - solucao[i].menor;
+    }
+
+    return custo;
+
 }
