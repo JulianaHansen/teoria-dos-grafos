@@ -34,8 +34,6 @@ public:
 
     Node *insertNode(int id);
     Node *insertNode(int id, float weight);
-    void insertEdge(int sourceId, int targetId);
-    void insertEdge(int sourceId, int targetId,  Node **sourceNode, Node **targetNode);
     void insertEdge(Node *sourceNode, Node *targetNode);
 
     bool searchNode(int id);

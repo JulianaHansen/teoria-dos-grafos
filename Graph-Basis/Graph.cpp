@@ -70,7 +70,10 @@ Graph::Graph(string filePath)
                 char ch;
                 int s, t;
                 while (iss >> ch >> s >> ch >> t >> ch) {
-                    this->insertEdge(s, t);
+                    Node * sourceNode = getNodeById(s);
+                    Node * targetNode = getNodeById(t);
+
+                    this->insertEdge(sourceNode, targetNode);
                 }
             }
         }
@@ -125,48 +128,6 @@ Node *Graph::insertNode(int id, float weight)
     Node *newNode = this->insertNode(id);
     newNode->setWeight(weight);
     return newNode;
-}
-
-void Graph::insertEdge(int sourceId, int targetId, Node **sourceNode, Node **targetNode)
-{
-    if (sourceId == targetId)
-        return;
-
-    *sourceNode = getNodeById(sourceId);
-    if (*sourceNode == nullptr)
-       *sourceNode = insertNode(sourceId);
-        else
-            return;
-
-    *targetNode = getNodeById(targetId);
-    if (*targetNode == nullptr)
-        *targetNode = insertNode(targetId);
-        else
-            return;
-    int targetNodeId = (*targetNode)->getId();
-
-    Edge *nextEdge = (*sourceNode)->getFirstEdge();
-    bool alreadyExists = false;
-    while (nextEdge != nullptr)
-    {
-        if (nextEdge->getTargetId() == targetNodeId)
-            alreadyExists = true;
-        nextEdge = nextEdge->getNextEdge();
-    }
-    if (!alreadyExists)
-    {
-        (*sourceNode)->insertEdge((*sourceNode)->getId(), targetNodeId);
-        (*targetNode)->insertEdge(targetNodeId, (*sourceNode)->getId());
-    }
-
-    numberEdges++;
-}
-
-void Graph::insertEdge(int sourceId, int targetId)
-{
-    Node *sourceNode = nullptr;
-    Node *targetNode = nullptr;
-    this->insertEdge(sourceId, targetId, &sourceNode, &targetNode);
 }
 
 void Graph::insertEdge(Node *sourceNode, Node *targetNode)
@@ -374,7 +335,7 @@ int Graph::guloso(float alfa){
     while(node != nullptr){
         Node* n = node->getNextNode();
         Edge* edge = node->getFirstEdge();
-
+        
         while(edge != nullptr){
             Edge *e = edge->getNextEdge();
             AuxAresta aux;
@@ -387,7 +348,6 @@ int Graph::guloso(float alfa){
         node = node->getNextNode();
     }
     todas_arestas.sort();
-
     int adicionado = 0;
 
     list<AuxAresta>::iterator it;
@@ -486,6 +446,8 @@ int Graph::guloso(float alfa){
             p_escolhido = candidatos.front().p;
         }
 
+        node_escolhido = 1;
+
         solucao[p_escolhido].vertices_ids.push_back(node_escolhido);
         if(getNodeById(node_escolhido)->getWeight() > solucao[p_escolhido].maior){
             solucao[p_escolhido].maior = getNodeById(node_escolhido)->getWeight();
@@ -505,7 +467,7 @@ int Graph::guloso(float alfa){
 
             bool id_disponivel = false;
             for(int i =0; i< disponivel.size(); i++){
-                if(disponivel[i] == e->getTargetId()){
+                if(e != nullptr && disponivel[i] == e->getTargetId()){
                     id_disponivel = true;
                 }
             }
@@ -534,7 +496,6 @@ int Graph::guloso(float alfa){
         }
         n++;
     }
-
     int custo = 0;
     for(int i=0; i< p;i++){
         custo += solucao[i].maior - solucao[i].menor;
