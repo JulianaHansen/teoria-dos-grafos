@@ -40,8 +40,10 @@ public:
     Node *getNodeById(int id);
     bool depthFirstSearch(int initialId, int targetId);
     void sortNodes(Node** nodeList);
-
+    int gulosoRandomizadoAdaptivo(float alfa, int interacoes);
     int guloso(float alfa);
+    int gulosoRandomizadoAdaptativoReativo(float alfas[], int tam_alfa, int iteracoes, int pacote);
+    
 
 
 private:

@@ -21,7 +21,9 @@ using namespace std;
 #include <sstream>
 
 using namespace std;
-
+#define MATRIX_A 0x9908b0dfUL	/* constant vector a */
+#define UPPER_MASK 0x80000000UL /* most significant w-r bits */
+#define LOWER_MASK 0x7fffffffUL /* least significant r bits */
 // Construtor
 Graph::Graph(string filePath)
 {
@@ -278,7 +280,8 @@ void removePorValor(vector<int> &v, int value){
             break;
         }
     }
-    v.erase(v.begin() + 1);
+
+    v.erase(v.begin() + i);
 }
 
 void init_genrand(unsigned long s)
@@ -332,11 +335,11 @@ int Graph::guloso(float alfa){
 
     Node* node = firstNode;
 
-    while(node != nullptr){
+    while(node->getNextNode() != nullptr){
         Node* n = node->getNextNode();
         Edge* edge = node->getFirstEdge();
         
-        while(edge != nullptr){
+        while(edge->getNextEdge() != nullptr){
             Edge *e = edge->getNextEdge();
             AuxAresta aux;
             aux.source = n->getId();
@@ -347,9 +350,9 @@ int Graph::guloso(float alfa){
         }
         node = node->getNextNode();
     }
+
     todas_arestas.sort();
     int adicionado = 0;
-
     list<AuxAresta>::iterator it;
 
     for(it= todas_arestas.begin(); it != todas_arestas.end(); ++it){
@@ -372,10 +375,11 @@ int Graph::guloso(float alfa){
     }
 
     for(int i =0; i< p; i++){
+
         for(int j = 0; j< solucao[i].vertices_ids.size(); j++){
             int atual_node_id = solucao[i].vertices_ids[j];
             Edge *aresta = getNodeById(atual_node_id)->getFirstEdge();
-            while(aresta != nullptr){
+            while(aresta->getNextEdge() != nullptr){
                 Edge *e = aresta->getNextEdge();
 
                 bool id_disponivel = false;
@@ -446,8 +450,6 @@ int Graph::guloso(float alfa){
             p_escolhido = candidatos.front().p;
         }
 
-        node_escolhido = 1;
-
         solucao[p_escolhido].vertices_ids.push_back(node_escolhido);
         if(getNodeById(node_escolhido)->getWeight() > solucao[p_escolhido].maior){
             solucao[p_escolhido].maior = getNodeById(node_escolhido)->getWeight();
@@ -462,12 +464,13 @@ int Graph::guloso(float alfa){
         candidatos.remove(aux);
 
         Edge* aresta = getNodeById(node_escolhido)->getFirstEdge();
-        while(aresta != nullptr){
-            Edge* e = aresta->getNextEdge();
+        while(aresta->getNextEdge() != nullptr){
+            Edge* e = aresta;// ->getNextEdge();
 
             bool id_disponivel = false;
+
             for(int i =0; i< disponivel.size(); i++){
-                if(e != nullptr && disponivel[i] == e->getTargetId()){
+                if(disponivel[i] == e->getTargetId()){
                     id_disponivel = true;
                 }
             }
@@ -492,15 +495,169 @@ int Graph::guloso(float alfa){
                 candidatos.push_back(c);
 
             }
-
+            aresta = aresta->getNextEdge();
         }
         n++;
+        cout << n << endl;
     }
+
+
     int custo = 0;
     for(int i=0; i< p;i++){
         custo += solucao[i].maior - solucao[i].menor;
     }
 
+    std::cout << "Total cost: " << custo << std::endl;
+
     return custo;
+}
+
+int Graph::gulosoRandomizadoAdaptivo(float alfa, int interacoes){
+    
+    int seed = time(0);
+    init_genrand(seed);
+    int melhor = std::numeric_limits<int>::max();
+    int melhor_it;
+    int aux;
+
+    for(int i=0; i< interacoes; i++){
+        aux = guloso(alfa);
+        if(aux < melhor){
+            melhor = aux;
+            melhor_it = i;
+        }
+    }
+
+    return melhor;
+}
+
+unsigned long genrand_int32(void)
+{
+	unsigned long y;
+	static unsigned long mag01[2] = {0x0UL, MATRIX_A};
+	/* mag01[x] = x * MATRIX_A  for x=0,1 */
+    int N = 624;
+    int M = 397;
+    int mti = N+1;
+    unsigned long mt[N]; 
+
+	if (mti >= N)
+	{ 
+		/* generate N words at one time */
+		int kk;
+
+		if (mti == N + 1)		  /* if init_genrand() has not been called, */
+			init_genrand(5489UL); /* a default initial seed is used */
+
+		for (kk = 0; kk < N - M; kk++)
+		{
+			y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
+			mt[kk] = mt[kk + M] ^ (y >> 1) ^ mag01[y & 0x1UL];
+		}
+		for (; kk < N - 1; kk++)
+		{
+			y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
+			mt[kk] = mt[kk + (M - N)] ^ (y >> 1) ^ mag01[y & 0x1UL];
+		}
+		y = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
+		mt[N - 1] = mt[M - 1] ^ (y >> 1) ^ mag01[y & 0x1UL];
+
+		mti = 0;
+	}
+
+	y = mt[mti++];
+
+	/* Tempering */
+	y ^= (y >> 11);
+	y ^= (y << 7) & 0x9d2c5680UL;
+	y ^= (y << 15) & 0xefc60000UL;
+	y ^= (y >> 18);
+
+	return y;
+}
+
+/* Generates a random number on [0,1)-real-interval */
+double genrand_real2(void) {
+  return genrand_int32()*(1.0/4294967296.0);
+  /* divided by 2^32 */
+}
+
+int escolheAlfa(float prob_alfas[]){
+    float rand = genrand_real2();
+    float soma_prob = 0;
+    for(int i=0;i<10;i++){
+        if(rand >= soma_prob && rand < soma_prob + prob_alfas[i]){
+            return i;
+        }
+        if(i== 9){
+            return 9;
+        }
+        soma_prob += prob_alfas[i];
+    }
+     return -1;
+}
+
+void atualizaProb(unsigned long int v[], unsigned short int n[], float prob_alfa[], int melhor_custo, int delta){
+    float q[10];
+    float soma_q = 0;
+
+    for(int i = 0; i<10 ; i++){
+        q[i] = pow((float)melhor_custo / ((float)v[i] / n[i]), delta);
+        soma_q += q[i];
+    }
+    for(int i=0; i<10; i++){
+        prob_alfa[i] = q[i] / soma_q;
+    }
+
+}
+
+int Graph::gulosoRandomizadoAdaptativoReativo(float alfas[], int tam_alfa, int iteracoes, int pacote){
+    int seed = time(0);
+    init_genrand(seed);
+
+    int delta = 10;
+
+    float* prob_alfas = new float[tam_alfa];
+    unsigned long int* v = new unsigned long int [tam_alfa];
+    unsigned short int* n = new unsigned short int [tam_alfa];
+
+    for(int i=0; i< tam_alfa; i++){
+        prob_alfas[i] = 1.0 / tam_alfa;
+        v[i] = 0;
+        n[i] = 0;
+    }
+
+    int melhor = std::numeric_limits<int>::max();
+    int melhor_it = 0;
+    float melhor_alfa = 0;
+
+    for(int i=0; i< tam_alfa;i++){
+        v[i] = guloso(alfas[i]);
+        n[i] = 1;
+    }
+
+    int aux;
+    int index_alfa;
+
+    for(int i =0; i< iteracoes; i++){
+        if(i%pacote == 0){
+            atualizaProb(v,n, prob_alfas, melhor, delta);
+        }
+        
+        index_alfa = escolheAlfa(prob_alfas);
+
+        v[index_alfa] += aux;
+        n[index_alfa] += 1;
+
+        if(aux < melhor){
+            melhor = aux;
+            melhor_it = i;
+            melhor_alfa = alfas[index_alfa];
+        }
+    }
+
+    cout << "Melhor custo achado" << melhor << endl;
+
+    return melhor;
 
 }

@@ -11,22 +11,26 @@ int exec(Graph g, int alg, int n, int seed) {
 
     int somaDosGaps = -1;
 
+    float alfas_valores[10] = {0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9};
+
     switch (alg){
         // GULOSO
         case 1:
+
             g.guloso(0);
+
         break;
         // GULOSO RANDOMIZADO ADAPTATIVO
         case 2:
-            for (int i = 0; i < n; i++){
-                //g.greedyA(seed);
-            }
+            
+            g.gulosoRandomizadoAdaptivo(0, 10);
+            
         break;
         // GULOSO RANDOMIZADO ADAPTATIVO REATIVO
         case 3:
-            for (int i = 0; i < n; i++){
-                //g.greedyAR(seed);
-            }
+
+            g.gulosoRandomizadoAdaptativoReativo(alfas_valores,10,10, 2);
+            
         break;
         // NENHUMA ALTERNATIVA SELECIONADA
         default:
@@ -72,3 +76,4 @@ int main(int argc, char *argv[]) {
     }
     return 0;
 }
+
