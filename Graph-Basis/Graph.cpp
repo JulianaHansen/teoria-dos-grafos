@@ -335,12 +335,14 @@ int Graph::guloso(float alfa){
 
     Node* node = firstNode;
 
-    while(node->getNextNode() != nullptr){
-        Node* n = node->getNextNode();
+    int i =0;
+
+    while(node != nullptr){
+        Node* n = node; 
         Edge* edge = node->getFirstEdge();
         
-        while(edge->getNextEdge() != nullptr){
-            Edge *e = edge->getNextEdge();
+        while(edge != nullptr){
+            Edge *e = edge;
             AuxAresta aux;
             aux.source = n->getId();
             aux.target = e->getTargetId();
@@ -379,8 +381,8 @@ int Graph::guloso(float alfa){
         for(int j = 0; j< solucao[i].vertices_ids.size(); j++){
             int atual_node_id = solucao[i].vertices_ids[j];
             Edge *aresta = getNodeById(atual_node_id)->getFirstEdge();
-            while(aresta->getNextEdge() != nullptr){
-                Edge *e = aresta->getNextEdge();
+            while(aresta != nullptr){
+                Edge *e = aresta;
 
                 bool id_disponivel = false;
                 for(int i = 0; i< disponivel.size(); i++){
@@ -464,8 +466,8 @@ int Graph::guloso(float alfa){
         candidatos.remove(aux);
 
         Edge* aresta = getNodeById(node_escolhido)->getFirstEdge();
-        while(aresta->getNextEdge() != nullptr){
-            Edge* e = aresta;// ->getNextEdge();
+        while(aresta != nullptr){
+            Edge* e = aresta;
 
             bool id_disponivel = false;
 
@@ -498,7 +500,6 @@ int Graph::guloso(float alfa){
             aresta = aresta->getNextEdge();
         }
         n++;
-        cout << n << endl;
     }
 
 
@@ -640,11 +641,13 @@ int Graph::gulosoRandomizadoAdaptativoReativo(float alfas[], int tam_alfa, int i
     int index_alfa;
 
     for(int i =0; i< iteracoes; i++){
-        if(i%pacote == 0){
+        if(i % pacote == 0){
             atualizaProb(v,n, prob_alfas, melhor, delta);
         }
         
         index_alfa = escolheAlfa(prob_alfas);
+
+        aux = guloso(alfas[index_alfa]);
 
         v[index_alfa] += aux;
         n[index_alfa] += 1;
@@ -656,7 +659,7 @@ int Graph::gulosoRandomizadoAdaptativoReativo(float alfas[], int tam_alfa, int i
         }
     }
 
-    cout << "Melhor custo achado" << melhor << endl;
+    cout << "Melhor custo achado : " << melhor << endl;
 
     return melhor;
 
